@@ -7,36 +7,36 @@ import { motion, useInView } from "framer-motion";
 const projectsData = [
   {
     id: 1,
-    title: "React Portfolio Website",
-    description: "Project 1 description",
-    image: "images/projects/1.png",
-    tag: ["All", "Web"],
-    gitUrl: "/",
-    previewUrl: "/",
+    title: "Robot Desinfectante IENDE",
+    description: "A robot designed for disinfection.",
+    modelEmbed: "https://sketchfab.com/models/e44f2f205d624b7b9e5a6f4c18399a85/embed",
+    tag: ["All", "Robotics"],
+    gitUrl: "https://github.com/yourusername/robot-desinfectante",
+    previewUrl: "https://yourwebsite.com/robot-desinfectante",
   },
   {
     id: 2,
-    title: "Potography Portfolio Website",
-    description: "Project 2 description",
-    image: "images/projects/2.png",
-    tag: ["All", "Web"],
-    gitUrl: "/",
-    previewUrl: "/",
+    title: "Tinker",
+    description: "A 3D model named Tinker.",
+    modelEmbed: "https://sketchfab.com/models/49c4e2e2b09849d5a4a5f968fbb66fe2/embed",
+    tag: ["All", "3D Models"],
+    gitUrl: "https://github.com/yourusername/tinker",
+    previewUrl: "https://yourwebsite.com/tinker",
   },
   {
     id: 3,
-    title: "E-commerce Application",
-    description: "Project 3 description",
-    image: "images/projects/3.png",
-    tag: ["All", "Web"],
-    gitUrl: "/",
-    previewUrl: "/",
+    title: "Mechanical Design",
+    description: "A mechanical design for a project.",
+    imgUrl: "images/projects/3.png",
+    tag: ["All", "Mechanical"],
+    gitUrl: "https://github.com/yourusername/mechanical-design",
+    previewUrl: "https://yourwebsite.com/mechanical-design",
   },
   {
     id: 4,
     title: "Food Ordering Application",
     description: "Project 4 description",
-    image: "images/projects/4.png",
+    imgUrl: "images/projects/4.png",
     tag: ["All", "Mobile"],
     gitUrl: "/",
     previewUrl: "/",
@@ -45,7 +45,7 @@ const projectsData = [
     id: 5,
     title: "React Firebase Template",
     description: "Authentication and CRUD operations",
-    image: "images/projects/5.png",
+    imgUrl: "images/projects/5.png",
     tag: ["All", "Web"],
     gitUrl: "/",
     previewUrl: "/",
@@ -54,7 +54,7 @@ const projectsData = [
     id: 6,
     title: "Full-stack Roadmap",
     description: "Project 5 description",
-    image: "images/projects/6.png",
+    imgUrl: "images/projects/6.png",
     tag: ["All", "Web"],
     gitUrl: "/",
     previewUrl: "/",
@@ -100,6 +100,21 @@ const ProjectsSection = () => {
           name="Mobile"
           isSelected={tag === "Mobile"}
         />
+        <ProjectTag
+          onClick={handleTagChange}
+          name="Robotics"
+          isSelected={tag === "Robotics"}
+        />
+        <ProjectTag
+          onClick={handleTagChange}
+          name="3D Models"
+          isSelected={tag === "3D Models"}
+        />
+        <ProjectTag
+          onClick={handleTagChange}
+          name="Mechanical"
+          isSelected={tag === "Mechanical"}
+        />
       </div>
       <ul ref={ref} className="grid md:grid-cols-3 gap-8 md:gap-12">
         {filteredProjects.map((project, index) => (
@@ -114,14 +129,15 @@ const ProjectsSection = () => {
               key={project.id}
               title={project.title}
               description={project.description}
-              imgUrl={project.image}
+              imgUrl={project.imgUrl}
+              modelEmbed={project.modelEmbed}
               gitUrl={project.gitUrl}
               previewUrl={project.previewUrl}
             />
           </motion.li>
         ))}
       </ul>
-    </section >
+    </section>
   );
 };
 
