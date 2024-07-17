@@ -4,19 +4,19 @@ import Link from "next/link";
 
 const ProjectCard = ({ imgUrl, modelEmbed, title, description, gitUrl, previewUrl }) => {
   return (
-    <div>
+    <div className="rounded-xl overflow-hidden bg-[#181818]">
       <div className="h-52 md:h-72 rounded-t-xl relative group" style={{ background: imgUrl ? `url(${imgUrl})` : 'none', backgroundSize: "cover" }}>
         {modelEmbed ? (
           <div className="sketchfab-embed-wrapper w-full h-full">
             <iframe
               title={title}
-              frameBorder="0"
               allowFullScreen
               mozallowfullscreen="true"
               webkitallowfullscreen="true"
               allow="autoplay; fullscreen; xr-spatial-tracking"
               src={modelEmbed}
               className="w-full h-full"
+              style={{ border: 0 }}
             ></iframe>
           </div>
         ) : (

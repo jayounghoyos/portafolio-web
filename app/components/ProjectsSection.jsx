@@ -19,7 +19,7 @@ const projectsData = [
     title: "Tinker",
     description: "A 3D model named Tinker.",
     modelEmbed: "https://sketchfab.com/models/49c4e2e2b09849d5a4a5f968fbb66fe2/embed",
-    tag: ["All", "3D Models"],
+    tag: ["All", "Robotics"],
     gitUrl: "https://github.com/yourusername/tinker",
     previewUrl: "https://yourwebsite.com/tinker",
   },
@@ -28,7 +28,7 @@ const projectsData = [
     title: "Mechanical Design",
     description: "A mechanical design for a project.",
     imgUrl: "images/projects/3.png",
-    tag: ["All", "Mechanical"],
+    tag: ["All", "Robotics"],
     gitUrl: "https://github.com/yourusername/mechanical-design",
     previewUrl: "https://yourwebsite.com/mechanical-design",
   },
@@ -37,7 +37,7 @@ const projectsData = [
     title: "Food Ordering Application",
     description: "Project 4 description",
     imgUrl: "images/projects/4.png",
-    tag: ["All", "Mobile"],
+    tag: ["All", "Web"],
     gitUrl: "/",
     previewUrl: "/",
   },
@@ -56,6 +56,15 @@ const projectsData = [
     description: "Project 5 description",
     imgUrl: "images/projects/6.png",
     tag: ["All", "Web"],
+    gitUrl: "/",
+    previewUrl: "/",
+  },
+  {
+    id: 7,
+    title: "Machine Learning Project",
+    description: "A project involving machine learning.",
+    imgUrl: "images/projects/7.png",
+    tag: ["All", "MachineLearning"],
     gitUrl: "/",
     previewUrl: "/",
   },
@@ -97,23 +106,13 @@ const ProjectsSection = () => {
         />
         <ProjectTag
           onClick={handleTagChange}
-          name="Mobile"
-          isSelected={tag === "Mobile"}
+          name="MachineLearning"
+          isSelected={tag === "MachineLearning"}
         />
         <ProjectTag
           onClick={handleTagChange}
           name="Robotics"
           isSelected={tag === "Robotics"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="3D Models"
-          isSelected={tag === "3D Models"}
-        />
-        <ProjectTag
-          onClick={handleTagChange}
-          name="Mechanical"
-          isSelected={tag === "Mechanical"}
         />
       </div>
       <ul ref={ref} className="grid md:grid-cols-3 gap-8 md:gap-12">
