@@ -8,7 +8,7 @@ const awardsData = [
   },
   {
     id: 2,
-    title: "First Place Envigado Competition",
+    title: "First Place Envigado",
     imgUrl: "images/awards/FirstPlaceEnvigadoCompetition.jpg",
   },
   {
@@ -28,7 +28,7 @@ const AwardsSection = () => {
             <img
               src={award.imgUrl}
               alt={award.title}
-              className="w-36 h-36 md:w-48 md:h-48 rounded-full object-contain"
+              className="w-36 h-36 md:w-48 md:h-48 object-contain"
             />
             <h3 className="mt-4 text-xl">{award.title}</h3>
           </div>

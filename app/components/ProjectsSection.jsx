@@ -19,7 +19,7 @@ const projectsData = [
     description: "A versatile Claw-Arm robot designed for grabbing competitions. It features precise movement control and robust construction for competitive environments.",
     modelEmbed: "https://sketchfab.com/models/49c4e2e2b09849d5a4a5f968fbb66fe2/embed",
     tag: ["All", "Robotics"],
-    previewUrl: "https://yourwebsite.com/tinker",
+    previewUrl: "/",
   },
   {
     id: 3,
@@ -27,8 +27,8 @@ const projectsData = [
     description: "A 3D graph for data visualization of movies with an imdb database",
     imgUrl: "images/projects/graph.jpeg",
     tag: ["All"],
-    gitUrl: "https://github.com/yourusername/mechanical-design",
-    previewUrl: "https://yourwebsite.com/mechanical-design",
+    gitUrl: "https://github.com/jayounghoyos/Parcial-3-Datos-Algoritmos",
+    previewUrl: "https://github.com/jayounghoyos/Parcial-3-Datos-Algoritmos",
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ const projectsData = [
     description: "A static rickroll time!",
     imgUrl: "images/projects/rick.jpeg",
     tag: ["All", "Robotics"],
-    gitUrl: "/",
+    gitUrl: "https://github.com/jayounghoyos/st7789-arduino-uno",
     previewUrl: "/",
   },
   {
@@ -46,7 +46,7 @@ const projectsData = [
     imgUrl: "images/projects/package.png",
     tag: ["All", "Web"],
     gitUrl: "/",
-    previewUrl: "/",
+    previewUrl: "https://pypi.org/project/rickrollprinter/0.1.3/",
   }
 ];
 
