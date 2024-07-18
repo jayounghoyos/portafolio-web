@@ -22,7 +22,7 @@ const TAB_DATA = [
     id: "education",
     content: (
       <ul className="list-disc pl-2">
-        <li>EAFIT University, Colombia</li>
+        <li>EAFIT University with the scholarship</li>
       </ul>
     ),
   },
