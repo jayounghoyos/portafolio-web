@@ -4,7 +4,7 @@ const awardsData = [
   {
     id: 1,
     title: "First place Bogotá",
-    imgUrl: "images/awards/FirstPlaceBogotá.jpg", 
+    imgUrl: "images/awards/FirstPlaceBogotá.jpg",
   },
   {
     id: 2,

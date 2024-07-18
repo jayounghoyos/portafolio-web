@@ -10,6 +10,7 @@ const TAB_DATA = [
     content: (
       <ul className="list-disc pl-2">
         <li>C++</li>
+        <li>Java</li>
         <li>Python</li>
         <li>Basic web development</li>
         <li>Problem-solving in ICPC-type problems</li>
