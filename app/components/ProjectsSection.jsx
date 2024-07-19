@@ -41,8 +41,8 @@ const projectsData = [
   },
   {
     id: 5,
-    title: "upload my Python library",
-    description: "Rickroll print library",
+    title: "upload my Python package",
+    description: "Rickroll print package",
     imgUrl: "images/projects/package.png",
     tag: ["All", "Web"],
     gitUrl: "/",
