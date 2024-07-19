@@ -7,13 +7,13 @@ const Footer = () => {
         <span>Jayoungh</span>
         <div className="socials flex flex-row gap-2">
           <a href="https://github.com/jayounghoyos" target="_blank" rel="noopener noreferrer">
-            <img className="w-9 h-9" alt="Github Icon" src="images/mainImages/github-icon.svg" />
+            <img className="w-9 h-9" alt="Github Icon" src="images/github-icon.svg" />
           </a>
           <a href="https://www.instagram.com/juan_andres_young_hoyos/" target="_blank" rel="noopener noreferrer">
-            <img className="w-9 h-9" alt="Instagram Icon" src="images/mainImages/instagram.svg" />
+            <img className="w-9 h-9" alt="Instagram Icon" src="images/instagram.svg" />
           </a>
           <a href="https://www.linkedin.com/in/juan-andres-young-hoyos-9a3712236/" target="_blank" rel="noopener noreferrer">
-            <img className="w-9 h-9" alt="Linkedin Icon" src="images/mainImages/linkedin-icon.svg" />
+            <img className="w-9 h-9" alt="Linkedin Icon" src="images/linkedin-icon.svg" />
           </a>
         </div>
         <p className="text-slate-600">All rights reserved.</p>
