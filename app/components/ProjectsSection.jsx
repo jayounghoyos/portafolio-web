@@ -47,6 +47,15 @@ const projectsData = [
     tag: ["All", "Web"],
     gitUrl: "/",
     previewUrl: "https://pypi.org/project/rickrollprinter/0.1.3/",
+  },
+  {
+    id: 6,
+    title: "game recommendations with ages",
+    description: "A machine learning model with sklearn to recommend games",
+    imgUrl: "images/projects/gameRecommendations.png",
+    tag: ["All", "MachineLearning"],
+    gitUrl: "https://github.com/jayounghoyos/machineLearningUdemy",
+    previewUrl: "https://github.com/jayounghoyos/machineLearningUdemy",
   }
 ];
 
