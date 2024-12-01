@@ -56,6 +56,24 @@ const projectsData = [
     tag: ["All", "MachineLearning"],
     gitUrl: "https://github.com/jayounghoyos/machineLearningUdemy",
     previewUrl: "https://github.com/jayounghoyos/machineLearningUdemy",
+  },
+  {
+    id: 7,
+    title: "Neural network 'Celcius to fahrenheit'",
+    description: "A Tensorflow neural network to convert degrees Celsius to Fahrenheit. (only one neuron)",
+    imgUrl: "images/projects/neuron.png",
+    tag: ["All", "MachineLearning"],
+    gitUrl: "https://github.com/jayounghoyos/FIRST_neural_network",
+    previewUrl: "https://github.com/jayounghoyos/FIRST_neural_network",
+  },
+  {
+    id: 8,
+    title: "Driving car with xbox controller'",
+    description: "Code to drive my raspberry pi 4 car with Xbox controller",
+    imgUrl: "images/projects/close.jpeg",
+    tag: ["All", "Robotics"],
+    gitUrl: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
+    previewUrl: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
   }
 ];
 
