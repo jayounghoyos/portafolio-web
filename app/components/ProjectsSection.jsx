@@ -74,6 +74,15 @@ const projectsData = [
     tag: ["All", "Robotics"],
     gitUrl: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
     previewUrl: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
+  },
+  {
+    id: 9,
+    title: "Magneto ads, Job recommendations",
+    description: "MVP for 'Magneto' - a job recommendation system powered by a classification model",
+    imgUrl: "images/projects/Magneto_ads.jpg",
+    tag: ["All", "Web", "MachineLearning"],
+    gitUrl: "https://github.com/jayounghoyos/ads_automation.git",
+    previewUrl: "https://ads-automation-xryl.vercel.app/",
   }
 ];
 
