@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const links = [
   { href: "#work", label: "Work" },
   { href: "#chassis", label: "Chassis" },
-  { href: "#about", label: "About" },
+  { href: "#about", label: "Byline" },
 ];
 
 export default function Nav() {
@@ -27,16 +27,15 @@ export default function Nav() {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-6xl px-6 lg:px-10 h-14 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12 h-12 flex items-center justify-between">
         <a
           href="#top"
-          className="flex items-center gap-2.5 group"
+          className="cursor-grow font-serif italic text-lg flex items-baseline gap-1.5"
           aria-label="Home"
+          data-cursor-label="To cover"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-signal ambient-pulse" />
-          <span className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink group-hover:text-signal transition-colors">
-            JYH
-          </span>
+          Portafolio
+          <span className="text-accent text-sm">.</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -44,16 +43,18 @@ export default function Nav() {
             <a
               key={l.href}
               href={l.href}
-              className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute hover:text-ink transition-colors"
+              data-cursor-label={`Jump to ${l.label}`}
+              className="cursor-grow font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute hover:text-ink transition-colors"
             >
               {l.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="px-3 py-1.5 font-mono uppercase text-[10.5px] tracking-[0.22em] border border-ink text-ink hover:bg-ink hover:text-paper transition-colors"
+            data-cursor-label="Letter"
+            className="cursor-grow px-3 py-1.5 font-mono uppercase text-[10.5px] tracking-[0.22em] bg-accent text-ink hover:bg-accent-soft transition-colors"
           >
-            Contact ↗
+            Get in touch ↗
           </a>
         </nav>
 
@@ -73,8 +74,8 @@ export default function Nav() {
           id="mobile-menu"
           className="md:hidden border-t border-rule bg-paper"
         >
-          <nav className="mx-auto max-w-6xl px-6 py-4 flex flex-col gap-3">
-            {[...links, { href: "#contact", label: "Contact" }].map((l) => (
+          <nav className="mx-auto max-w-7xl px-6 py-4 flex flex-col gap-3">
+            {[...links, { href: "#contact", label: "Letter" }].map((l) => (
               <a
                 key={l.href}
                 href={l.href}

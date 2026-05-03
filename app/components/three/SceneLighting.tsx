@@ -4,27 +4,26 @@ export default function SceneLighting() {
   return (
     <>
       {/* Soft ambient base */}
-      <ambientLight intensity={0.35} />
-      {/* Strong cinematic key from upper-right */}
+      <ambientLight intensity={0.45} />
+      {/* Cinematic warm key */}
       <directionalLight
         position={[5, 7, 4]}
-        intensity={1.6}
-        color="#FFE9C7"
+        intensity={1.4}
+        color="#FFF1D6"
       />
-      {/* Bold signal-orange rim from lower-left */}
+      {/* Chartreuse rim from lower-left for accent */}
       <directionalLight
         position={[-6, -2, -3]}
-        intensity={1.2}
-        color="#E25822"
+        intensity={0.85}
+        color="#C8D958"
       />
-      {/* Subtle teal counter-rim for separation */}
+      {/* Cool counter-fill for depth */}
       <directionalLight
         position={[-3, 4, -5]}
-        intensity={0.5}
-        color="#0F766E"
+        intensity={0.4}
+        color="#B8C4D6"
       />
-      {/* Warm fill from below to lift the underside */}
-      <pointLight position={[0, -2, 2]} intensity={0.5} color="#F08A5D" />
+      <pointLight position={[0, -2, 2]} intensity={0.35} color="#F0E9D6" />
     </>
   );
 }

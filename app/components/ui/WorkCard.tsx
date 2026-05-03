@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 import type { Project } from "../../lib/projects";
 
 type Props = {
@@ -10,77 +9,66 @@ type Props = {
 export default function WorkCard({ project, index }: Props) {
   const number = String(index + 1).padStart(2, "0");
   const link = project.href ?? project.repo;
+  const total = 4;
 
   return (
     <a
       href={link}
       target={link?.startsWith("http") ? "_blank" : undefined}
       rel={link?.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="cursor-grow group relative block py-12 border-t border-rule first:border-t-0 transition-colors duration-500 hover:bg-warm/50 px-2 -mx-2"
+      data-cursor-label={`Open ${project.title}`}
+      className="cursor-grow group block py-12 lg:py-16 border-t border-rule first:border-t-0"
     >
-      {/* Bracket index ID column on left edge */}
-      <span className="absolute -left-1 top-12 hidden lg:flex items-center gap-2">
-        <span className="w-1.5 h-1.5 rounded-full bg-signal" />
-      </span>
-
-      <div className="flex items-baseline justify-between gap-6">
-        <span className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute">
-          §{number} &nbsp;/&nbsp; {project.domain}
-        </span>
-        <span className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute">
-          [ {project.year} ]
-        </span>
+      {/* Article header */}
+      <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8 items-baseline mb-6">
+        <div className="col-span-6 flex items-baseline gap-3">
+          <span className="font-serif italic text-3xl lg:text-4xl text-accent-deep">
+            {number}
+          </span>
+          <span className="kicker">/ {String(total).padStart(2, "0")} &middot; {project.domain}</span>
+        </div>
+        <div className="col-span-6 text-right">
+          <span className="kicker">[ {project.year} ]</span>
+        </div>
       </div>
 
-      <div className="mt-7 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        <div className="lg:col-span-7 order-2 lg:order-1 flex flex-col justify-center">
-          <h3 className="font-serif text-[2.4rem] md:text-[3rem] lg:text-[3.6rem] leading-[1.0] text-ink">
-            <span className="transition-colors group-hover:text-signal">
-              {project.title}
-            </span>
-            <ArrowUpRight
-              size={28}
-              className="inline-block ml-2 -mt-3 text-mute transition-all group-hover:-translate-y-1.5 group-hover:translate-x-1.5 group-hover:text-signal"
-            />
-          </h3>
-          <p className="mt-5 text-base lg:text-lg text-ink/85 max-w-measure text-pretty leading-[1.6]">
-            {project.blurb}
-          </p>
-          {project.repo && project.href && project.href !== project.repo ? (
-            <div className="mt-6 flex gap-5 font-mono uppercase text-[10.5px] tracking-[0.22em]">
-              <span className="inline-flex items-center gap-2 text-ink">
-                <span className="w-1 h-1 rounded-full bg-signal" />
-                Live demo
-              </span>
-              <span className="text-mute">↗ source</span>
-            </div>
-          ) : null}
-        </div>
-
+      {/* Spread */}
+      <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8 items-stretch">
+        {/* Image column */}
         {project.imgUrl ? (
-          <div className="lg:col-span-5 order-1 lg:order-2">
-            <div className="hud-frame relative">
-              <span className="hud-tr" aria-hidden />
-              <span className="hud-bl" aria-hidden />
-              <div className="relative aspect-[4/3] overflow-hidden bg-warm scan-on-hover">
-                <Image
-                  src={project.imgUrl}
-                  alt={project.title}
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.06]"
-                />
-                {/* Bottom-left bracket label */}
-                <div className="absolute bottom-3 left-3 flex items-center gap-2 z-10">
-                  <span className="w-1 h-1 rounded-full bg-signal" />
-                  <span className="font-mono uppercase text-[9.5px] tracking-[0.22em] text-warm bg-deep/70 px-2 py-1 backdrop-blur-sm">
-                    fig. {number}
-                  </span>
-                </div>
-              </div>
+          <div className="col-span-12 lg:col-span-6 order-1">
+            <div className="relative aspect-[5/4] overflow-hidden bg-rule scan-on-hover">
+              <Image
+                src={project.imgUrl}
+                alt={project.title}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.05]"
+              />
             </div>
           </div>
         ) : null}
+
+        {/* Title column — overlaps image edge slightly on desktop */}
+        <div className="col-span-12 lg:col-span-6 order-2 flex flex-col justify-center mt-6 lg:mt-0 lg:-ml-6 relative z-10">
+          <h3 className="article-title text-ink leading-[0.96] mb-5">
+            <span className="group-hover:text-accent-deep transition-colors">
+              {project.title}
+            </span>
+          </h3>
+          <p className="text-base lg:text-lg text-ink/85 max-w-[42ch] text-pretty leading-[1.55]">
+            {project.blurb}
+          </p>
+          <div className="mt-6 flex items-center gap-3 font-mono uppercase text-[11px] tracking-[0.22em]">
+            <span className="text-ink group-hover:text-accent-deep transition-colors inline-flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              Read full
+            </span>
+            <span className="font-serif italic text-2xl text-mute group-hover:text-accent-deep group-hover:translate-x-1 transition-all">
+              ↗
+            </span>
+          </div>
+        </div>
       </div>
     </a>
   );

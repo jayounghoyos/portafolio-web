@@ -9,15 +9,14 @@ module.exports = {
     extend: {
       colors: {
         paper: "#F5F1EA",
-        ink: "#1A1814",
+        ink: "#16130E",
+        deep: "#16130E",
         mute: "#6E665B",
         rule: "#D9D2C4",
-        signal: "#E25822",
-        "signal-soft": "#F08A5D",
-        accent: "#0F766E",
+        accent: "#C8D958",
+        "accent-soft": "#DDE890",
+        "accent-deep": "#9CAB3F",
         warm: "#EFE7D7",
-        deep: "#16130E",
-        "deep-soft": "#2A251D",
       },
       fontFamily: {
         serif: ["var(--font-instrument-serif)", "ui-serif", "Georgia", "serif"],
@@ -25,10 +24,11 @@ module.exports = {
         mono: ["var(--font-jetbrains-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       maxWidth: {
-        measure: "68ch",
+        measure: "62ch",
       },
       letterSpacing: {
-        kicker: "0.14em",
+        kicker: "0.18em",
+        "kicker-wide": "0.32em",
       },
     },
   },

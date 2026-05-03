@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import { setAssemblyState, type AssemblyPhase } from "../../lib/assemblyStore";
+type AssemblyPhase = "assembling" | "assembled" | "disassembling" | "idle";
 
 const MODEL_URL = "/models/chassis.gltf";
 useGLTF.preload(MODEL_URL);
@@ -86,8 +86,8 @@ const ROLE_MATERIAL: Record<
   mount: { color: "#5C4F3D", metalness: 0.40, roughness: 0.55 },
   housing: { color: "#5C4F3D", metalness: 0.40, roughness: 0.55 },
   axle: { color: "#A89A8C", metalness: 0.90, roughness: 0.20 },
-  gear: { color: "#C2410C", metalness: 0.65, roughness: 0.30, emissive: "#C2410C", emissiveIntensity: 0.18 },
-  screw: { color: "#B8895A", metalness: 0.78, roughness: 0.28, emissive: "#C2410C", emissiveIntensity: 0.08 },
+  gear: { color: "#C8D958", metalness: 0.65, roughness: 0.32, emissive: "#C8D958", emissiveIntensity: 0.18 },
+  screw: { color: "#B8B093", metalness: 0.78, roughness: 0.28 },
   default: { color: "#2D2A24", metalness: 0.40, roughness: 0.55 },
 };
 
@@ -135,9 +135,18 @@ const TARGET_DIAGONAL = 2.6;
 
 type Props = {
   assembleCycle?: boolean;
+  /**
+   * When true, skips per-part animation entirely. Parts render in the
+   * fully-assembled state, no useFrame overhead. Used by the hero canvas
+   * to avoid two animated R3F loops on the same page.
+   */
+  static?: boolean;
 };
 
-export default function RealAssembly({ assembleCycle = true }: Props) {
+export default function RealAssembly({
+  assembleCycle = true,
+  static: isStatic = false,
+}: Props) {
   const { scene } = useGLTF(MODEL_URL);
 
   // Clone once + prepare materials, scaling, and animation list
@@ -274,18 +283,31 @@ export default function RealAssembly({ assembleCycle = true }: Props) {
     return { root, animatedNodes };
   }, [scene]);
 
-  const stateEmitTimer = useRef(0);
   const tmpQuat = useMemo(() => new THREE.Quaternion(), []);
   const tmpAxisQuat = useMemo(() => new THREE.Quaternion(), []);
+  const initialized = useRef(false);
+
+  // STATIC mode: set every node to its assembled state once, never run useFrame
+  useEffect(() => {
+    if (!isStatic || initialized.current) return;
+    for (let i = 0; i < animatedNodes.length; i++) {
+      const a = animatedNodes[i];
+      a.node.position.copy(a.initialPos);
+      a.node.quaternion.copy(a.initialQuat);
+      a.node.scale.copy(a.initialScale);
+    }
+    initialized.current = true;
+  }, [animatedNodes, isStatic]);
 
   useFrame((state, delta) => {
+    if (isStatic) return; // perf: skip frame loop entirely in static mode
+
     const t = state.clock.elapsedTime;
     const cycle = assembleCycle
       ? assemblyProgress(t)
       : { progress: 1, phase: "assembled" as AssemblyPhase, cycleElapsed: 0 };
 
     const progress = cycle.progress;
-    const inv = 1 - progress;
 
     for (let i = 0; i < animatedNodes.length; i++) {
       const a = animatedNodes[i];
@@ -294,17 +316,14 @@ export default function RealAssembly({ assembleCycle = true }: Props) {
       const eased = assembleCycle ? easeInOutCubic(partProgress) : 1;
       const partInv = 1 - eased;
 
-      // Position: initial + explodeOffset * (1 - eased)
       a.node.position.x = a.initialPos.x + a.explodeOffset.x * partInv;
       a.node.position.y = a.initialPos.y + a.explodeOffset.y * partInv;
       a.node.position.z = a.initialPos.z + a.explodeOffset.z * partInv;
 
       if (eased > 0.95) {
-        a.node.position.y +=
-          Math.sin(t * 0.9 + a.breatheSeed) * 0.004;
+        a.node.position.y += Math.sin(t * 0.9 + a.breatheSeed) * 0.004;
       }
 
-      // Rotation: original × spin offset (only when assembled enough)
       if (a.spinSpeed !== 0 && eased > 0.6) {
         const angle = t * a.spinSpeed * (eased - 0.6) * 2.5;
         tmpAxisQuat.setFromAxisAngle(a.spinAxis, angle);
@@ -315,19 +334,7 @@ export default function RealAssembly({ assembleCycle = true }: Props) {
       }
     }
 
-    // Subtle root bob
     root.position.y = Math.sin(t * 0.6) * 0.018 * progress;
-
-    stateEmitTimer.current += delta;
-    if (stateEmitTimer.current > 0.1) {
-      stateEmitTimer.current = 0;
-      setAssemblyState({
-        phase: cycle.phase,
-        progress: cycle.progress,
-        cycleElapsed: cycle.cycleElapsed,
-        totalCycle: TOTAL_CYCLE,
-      });
-    }
   });
 
   return <primitive object={root} />;

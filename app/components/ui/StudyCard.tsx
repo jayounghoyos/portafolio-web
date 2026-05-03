@@ -1,50 +1,46 @@
-import { ArrowUpRight } from "lucide-react";
 import type { Project } from "../../lib/projects";
 
 type Props = {
   project: Project;
+  index: number;
 };
 
-export default function StudyCard({ project }: Props) {
+export default function StudyCard({ project, index }: Props) {
   const link = project.repo ?? project.href;
+  const number = String(index + 1).padStart(2, "0");
+
   return (
     <a
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block hud-frame bg-warm/30 hover:bg-warm/60 transition-colors duration-500 p-6 lg:p-7"
+      data-cursor-label={`Read ${project.title}`}
+      className="cursor-grow group block py-8 lg:py-10 border-t border-rule first:border-t-0 grid grid-cols-12 gap-x-4 items-baseline"
     >
-      <span className="hud-tr" aria-hidden />
-      <span className="hud-bl" aria-hidden />
-
-      <div className="flex items-baseline justify-between">
-        <span className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute">
-          {project.domain}
-        </span>
-        <span className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute">
-          [ {project.year} ]
+      <div className="col-span-2 lg:col-span-1">
+        <span className="font-serif italic text-2xl lg:text-3xl text-accent-deep">
+          {number}
         </span>
       </div>
-
-      <h3 className="mt-5 font-serif text-2xl lg:text-[1.65rem] leading-snug flex items-start gap-2">
-        <span className="group-hover:text-signal transition-colors">
-          {project.title}
-        </span>
-        <ArrowUpRight
-          size={18}
-          className="text-mute mt-1 group-hover:text-signal transition-colors"
-        />
-      </h3>
-
-      <p className="mt-3 text-[15px] text-ink/85 leading-relaxed">
-        {project.blurb}
-      </p>
-
-      {project.lesson ? (
-        <p className="mt-5 pt-4 border-t border-rule font-mono uppercase text-[10.5px] tracking-[0.18em] text-signal">
-          ⤳ &nbsp;{project.lesson}
+      <div className="col-span-10 lg:col-span-7">
+        <h3 className="font-serif italic text-2xl lg:text-3xl leading-[1.05] mb-2">
+          <span className="group-hover:text-accent-deep transition-colors">
+            {project.title}
+          </span>
+        </h3>
+        <p className="text-[15px] text-ink/80 leading-[1.6] max-w-[50ch]">
+          {project.blurb}
         </p>
-      ) : null}
+        {project.lesson ? (
+          <p className="mt-3 text-[12px] text-mute italic max-w-[50ch]">
+            &mdash; {project.lesson}
+          </p>
+        ) : null}
+      </div>
+      <div className="col-span-12 lg:col-span-4 lg:text-right mt-3 lg:mt-0 flex lg:justify-end items-baseline gap-3">
+        <span className="kicker">{project.domain}</span>
+        <span className="kicker text-mute/80">[ {project.year} ]</span>
+      </div>
     </a>
   );
 }
