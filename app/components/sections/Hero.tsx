@@ -1,136 +1,195 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import MagneticLink from "../ui/MagneticLink";
-import Folio from "../ui/Folio";
 import { issue } from "../../lib/issue";
 
-const ChassisCanvas = dynamic(() => import("../three/ChassisCanvas"), {
+const RobotEyeScene = dynamic(() => import("../three/RobotEyeScene"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full grid place-items-center">
-      <span className="kicker animate-pulse">streaming chassis…</span>
+    <div className="absolute inset-0 grid place-items-center bg-deep">
+      <span className="kicker text-warm/55 animate-pulse">initializing sensor…</span>
     </div>
   ),
 });
 
+const LOG_LINES = [
+  "[T+00.00] BOOT · sensor array online",
+  "[T+00.04] CALIBRATE · IMU drift 0.012",
+  "[T+00.07] OBJECT detection: VEHICLE_PLATFORM_v0.3",
+  "[T+00.09] OBJECT detection: WORKBENCH",
+  "[T+00.12] OBJECT detection: TOOL · CALIPER",
+  "[T+00.15] CONF check pass · 5/5 targets",
+  "[T+00.18] WAIT · operator presence detected",
+  "[T+00.20] STATUS · standing by",
+];
+
+function useTickingClock() {
+  const [time, setTime] = useState("00:00:00");
+  useEffect(() => {
+    const tick = () => {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      const ss = String(d.getSeconds()).padStart(2, "0");
+      setTime(`${hh}:${mm}:${ss}`);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
+}
+
 export default function Hero() {
+  const time = useTickingClock();
+
   return (
     <section
       id="top"
-      className="relative bg-paper overflow-hidden border-b border-rule"
+      className="panel-deep relative w-full overflow-hidden h-screen min-h-[680px]"
     >
-      {/* Cover masthead row */}
-      <div className="border-b border-rule">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 flex items-baseline justify-between gap-6">
+      {/* POV scene fills the section */}
+      <div className="absolute inset-0">
+        <RobotEyeScene />
+      </div>
+
+      {/* Scanline + vignette overlays */}
+      <div
+        className="absolute inset-0 pointer-events-none mix-blend-overlay"
+        style={{
+          background:
+            "repeating-linear-gradient(to bottom, rgba(255,255,255,0.0) 0, rgba(255,255,255,0.0) 2px, rgba(255,255,255,0.04) 3px, rgba(255,255,255,0.0) 4px)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,0.55) 100%)",
+        }}
+        aria-hidden
+      />
+
+      {/* Reticle in dead-center */}
+      <div className="absolute inset-0 grid place-items-center pointer-events-none z-10">
+        <div className="relative w-32 h-32 lg:w-40 lg:h-40">
+          <span className="absolute top-1/2 left-0 w-3 h-px bg-accent/70" />
+          <span className="absolute top-1/2 right-0 w-3 h-px bg-accent/70" />
+          <span className="absolute left-1/2 top-0 h-3 w-px bg-accent/70" />
+          <span className="absolute left-1/2 bottom-0 h-3 w-px bg-accent/70" />
+          <span className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/70" />
+          <span className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/70" />
+          <span className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/70" />
+          <span className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/70" />
+        </div>
+      </div>
+
+      {/* HUD top strip */}
+      <div className="absolute inset-x-0 top-0 z-20 border-b border-warm/10">
+        <div className="px-6 lg:px-12 py-3 flex items-baseline justify-between font-mono uppercase text-[10.5px] tracking-[0.22em] text-warm/70 gap-3 flex-wrap">
           <div className="flex items-baseline gap-3">
-            <span className="kicker-strong">{issue.publication}</span>
-            <span className="text-accent text-[10px]">◆</span>
-            <span className="kicker">VOL.{issue.vol} / ISSUE {issue.number}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-accent ambient-pulse" />
+            <span className="text-warm">SENSOR_01</span>
+            <span className="hidden sm:inline">·</span>
+            <span className="hidden sm:inline">FEED LIVE</span>
           </div>
-          <span className="kicker hidden sm:block">
-            {issue.date} &middot; {issue.city}
-          </span>
+          <div className="hidden md:flex items-baseline gap-3">
+            <span>SCENE · workshop</span>
+            <span>·</span>
+            <span>LAT {issue.coordinates}</span>
+          </div>
+          <div className="flex items-baseline gap-3">
+            <span className="text-warm">{time}</span>
+            <span className="hidden sm:inline">·</span>
+            <span className="hidden sm:inline">REC</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-accent ambient-pulse" />
+          </div>
         </div>
       </div>
 
-      {/* Cover spread */}
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-12 pt-10 lg:pt-16 pb-20 lg:pb-28">
-        {/* Top-row label */}
-        <div className="flex items-baseline justify-between mb-8 lg:mb-12">
-          <Folio current={issue.contents.length.toString().padStart(2, "0")} total="cover" label="THE COVER" />
-          <span className="kicker hidden md:block">
-            By {issue.editor}
-          </span>
-        </div>
+      {/* Side telemetry left */}
+      <div className="hidden lg:flex flex-col gap-2 absolute left-6 top-1/2 -translate-y-1/2 z-20 font-mono uppercase text-[10px] tracking-[0.22em] text-warm/60">
+        <span>IMU</span>
+        <span className="text-warm">0.012g</span>
+        <span className="mt-3">VOLT</span>
+        <span className="text-warm">12.4 V</span>
+        <span className="mt-3">BATT</span>
+        <span className="text-accent">84%</span>
+        <span className="mt-3">TEMP</span>
+        <span className="text-warm">37 °C</span>
+      </div>
 
-        {/* Main asymmetric grid: chassis + title */}
-        <div className="relative grid grid-cols-12 gap-x-4 lg:gap-x-8">
-          {/* Chassis canvas — cols 1–7 desktop, full width mobile */}
-          <div className="col-span-12 lg:col-span-7 relative">
-            <div className="relative aspect-[5/4] lg:aspect-[4/3] w-full">
-              <ChassisCanvas static lazy />
-            </div>
-            {/* Caption strip below canvas */}
-            <div className="mt-3 flex items-baseline justify-between gap-3">
-              <p className="kicker">
-                Fig. 01 &mdash; Vehicle chassis, four-motor drivetrain
+      {/* Side telemetry right */}
+      <div className="hidden lg:flex flex-col gap-2 absolute right-6 top-1/2 -translate-y-1/2 z-20 font-mono uppercase text-[10px] tracking-[0.22em] text-warm/60 text-right">
+        <span>HEADING</span>
+        <span className="text-warm">142°</span>
+        <span className="mt-3">DEPTH MAP</span>
+        <span className="text-warm">SYNCED</span>
+        <span className="mt-3">FRAME</span>
+        <span className="text-warm">042881</span>
+        <span className="mt-3">UPLINK</span>
+        <span className="text-accent">OK</span>
+      </div>
+
+      {/* Big headline overlay (centered, text reads against vignette) */}
+      <div className="absolute inset-x-0 bottom-0 z-20 px-6 lg:px-12 pb-28 lg:pb-32">
+        <div className="max-w-4xl">
+          <p className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-warm/65 mb-4">
+            ◆ Field of view · 06.2026
+          </p>
+          <h1 className="cover-title text-warm text-balance">
+            What the chassis
+            <br />
+            <span className="text-accent">would see,</span>
+            <br />
+            <span className="italic text-warm/85">if it had eyes yet.</span>
+          </h1>
+
+          <div className="mt-8 lg:mt-10 grid grid-cols-12 gap-4 lg:gap-8 items-end">
+            <div className="col-span-12 lg:col-span-7">
+              <p className="text-base lg:text-lg text-warm/75 max-w-[44ch] leading-[1.55] text-pretty">
+                Engineering student at EAFIT. Building a four-motor vehicle
+                platform from CAD to controller — plus the perception stack
+                that will eventually drive it. Full-stack when the model
+                needs an interface.
               </p>
-              <p className="kicker hidden md:block">
-                Onshape &rarr; gltf
-              </p>
             </div>
-            {/* Chartreuse anchor rule */}
-            <div className="hair-rule-accent mt-2" />
-          </div>
-
-          {/* Title — cols 6–12, overlapping the canvas on the right edge */}
-          <div className="col-span-12 lg:col-span-6 lg:col-start-7 lg:-ml-12 lg:-mt-8 relative z-10 pointer-events-none">
-            <h1 className="cover-title text-balance pointer-events-auto">
-              <span className="block">Machine</span>
-              <span className="block">learning,</span>
-              <span className="block">robotics,</span>
-              <span className="block text-mute">&amp; what holds</span>
-              <span className="block">
-                them <span className="text-accent">up</span>.
-              </span>
-            </h1>
-          </div>
-        </div>
-
-        {/* Subtitle row */}
-        <div className="mt-12 lg:mt-20 grid grid-cols-12 gap-x-4 lg:gap-x-8">
-          <div className="col-span-12 lg:col-span-5 lg:col-start-1">
-            <p className="kicker mb-3">Editor&apos;s note</p>
-            <p className="text-lg lg:text-xl text-ink/85 max-w-[40ch] text-pretty leading-[1.55]">
-              Engineering student at EAFIT &mdash; building a four-motor
-              vehicle platform from CAD to controller, plus the perception
-              stack that drives it. Full-stack when the model needs an
-              interface.
-            </p>
-          </div>
-          <div className="hidden lg:block col-span-1 col-start-7" />
-          <div className="col-span-12 lg:col-span-5 lg:col-start-8 mt-6 lg:mt-0 flex flex-col gap-4 self-end">
-            <MagneticLink
-              href="#chassis"
-              data-cursor-label="Inspect →"
-              className="cursor-grow group inline-flex items-center justify-between gap-3 px-5 py-4 bg-ink text-paper hover:bg-accent hover:text-ink transition-colors duration-200"
-              strength={0.25}
-            >
-              <span className="font-mono uppercase text-[11px] tracking-[0.22em]">
-                Inspect chassis
-              </span>
-              <span className="font-serif italic text-2xl group-hover:translate-x-1 transition-transform">
-                ↗
-              </span>
-            </MagneticLink>
-            <div className="flex items-baseline justify-between gap-3 pt-4 border-t border-rule">
-              <span className="kicker">07 features inside</span>
-              <a
-                href="#now"
-                data-cursor-label="Read on"
-                className="cursor-grow font-mono uppercase text-[11px] tracking-[0.22em] text-ink hover:text-accent-deep"
+            <div className="col-span-12 lg:col-span-5 flex flex-wrap gap-x-5 gap-y-3 lg:justify-end">
+              <MagneticLink
+                href="#chassis"
+                data-cursor-label="View chassis"
+                className="cursor-grow group inline-flex items-center gap-3 px-5 py-3 bg-accent text-deep hover:bg-accent-soft transition-colors font-mono uppercase text-[10.5px] tracking-[0.22em]"
+                strength={0.25}
               >
-                Begin reading ↓
-              </a>
+                Mount the chassis
+                <span className="font-serif italic text-xl group-hover:translate-x-1 transition-transform">↗</span>
+              </MagneticLink>
+              <MagneticLink
+                href="#work"
+                strength={0.18}
+                data-cursor-label="View work"
+                className="cursor-grow font-mono uppercase text-[10.5px] tracking-[0.22em] text-warm hover:text-accent transition-colors inline-flex items-center gap-2 px-3 py-3"
+              >
+                See the network <span aria-hidden>↓</span>
+              </MagneticLink>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom strip */}
-      <div className="border-t border-rule">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 grid grid-cols-12 items-baseline gap-3">
-          <div className="col-span-3">
-            <Folio current="00" total={issue.contents.length.toString().padStart(2, "0")} />
-          </div>
-          <div className="hidden md:block col-span-6 text-center">
-            <span className="font-serif italic text-base">
-              {issue.motto}
-            </span>
-          </div>
-          <div className="col-span-9 md:col-span-3 text-right">
-            <span className="kicker">{issue.coordinates}</span>
+      {/* HUD bottom log feed */}
+      <div className="absolute inset-x-0 bottom-0 z-20 border-t border-warm/10 bg-deep/65 backdrop-blur-sm">
+        <div className="px-6 lg:px-12 py-2.5 marquee">
+          <div className="marquee-track font-mono uppercase text-[10px] tracking-[0.22em] text-warm/65">
+            {[...LOG_LINES, ...LOG_LINES].map((line, i) => (
+              <span key={i} className="inline-flex items-center gap-3">
+                <span className="text-accent">▸</span>
+                <span>{line}</span>
+              </span>
+            ))}
           </div>
         </div>
       </div>
