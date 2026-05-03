@@ -7,13 +7,26 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       colors: {
-        customBackground: '#1a2', // Color personalizado
+        paper: "#F5F1EA",
+        ink: "#1A1814",
+        mute: "#6E665B",
+        rule: "#D9D2C4",
+        signal: "#C2410C",
+        accent: "#0F766E",
+        warm: "#EFE7D7",
+        deep: "#2D2A24",
+      },
+      fontFamily: {
+        serif: ["var(--font-instrument-serif)", "ui-serif", "Georgia", "serif"],
+        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      },
+      maxWidth: {
+        measure: "68ch",
+      },
+      letterSpacing: {
+        kicker: "0.14em",
       },
     },
   },
