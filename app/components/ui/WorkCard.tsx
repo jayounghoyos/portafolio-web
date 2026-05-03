@@ -16,10 +16,10 @@ export default function WorkCard({ project, index }: Props) {
       href={link}
       target={link?.startsWith("http") ? "_blank" : undefined}
       rel={link?.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="group relative block py-10 border-t border-rule first:border-t-0 hover:bg-warm/40 transition-colors duration-500 px-2 -mx-2"
+      className="cursor-grow group relative block py-12 border-t border-rule first:border-t-0 transition-colors duration-500 hover:bg-warm/50 px-2 -mx-2"
     >
-      {/* Index marker */}
-      <span className="absolute -left-1 top-10 hidden lg:flex items-center gap-2">
+      {/* Bracket index ID column on left edge */}
+      <span className="absolute -left-1 top-12 hidden lg:flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-signal" />
       </span>
 
@@ -32,23 +32,26 @@ export default function WorkCard({ project, index }: Props) {
         </span>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div className="lg:col-span-7 order-2 lg:order-1">
-          <h3 className="font-serif text-3xl md:text-[2.6rem] lg:text-[3rem] leading-[1.05] text-ink flex items-start gap-3">
+      <div className="mt-7 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="lg:col-span-7 order-2 lg:order-1 flex flex-col justify-center">
+          <h3 className="font-serif text-[2.4rem] md:text-[3rem] lg:text-[3.6rem] leading-[1.0] text-ink">
             <span className="transition-colors group-hover:text-signal">
               {project.title}
             </span>
             <ArrowUpRight
-              size={22}
-              className="text-mute mt-2 transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-signal"
+              size={28}
+              className="inline-block ml-2 -mt-3 text-mute transition-all group-hover:-translate-y-1.5 group-hover:translate-x-1.5 group-hover:text-signal"
             />
           </h3>
-          <p className="mt-4 text-base lg:text-lg text-ink/85 max-w-measure text-pretty">
+          <p className="mt-5 text-base lg:text-lg text-ink/85 max-w-measure text-pretty leading-[1.6]">
             {project.blurb}
           </p>
           {project.repo && project.href && project.href !== project.repo ? (
-            <div className="mt-5 flex gap-5 font-mono uppercase text-[10.5px] tracking-[0.22em]">
-              <span className="text-ink">↗ live demo</span>
+            <div className="mt-6 flex gap-5 font-mono uppercase text-[10.5px] tracking-[0.22em]">
+              <span className="inline-flex items-center gap-2 text-ink">
+                <span className="w-1 h-1 rounded-full bg-signal" />
+                Live demo
+              </span>
               <span className="text-mute">↗ source</span>
             </div>
           ) : null}
@@ -65,8 +68,15 @@ export default function WorkCard({ project, index }: Props) {
                   alt={project.title}
                   fill
                   sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.06]"
                 />
+                {/* Bottom-left bracket label */}
+                <div className="absolute bottom-3 left-3 flex items-center gap-2 z-10">
+                  <span className="w-1 h-1 rounded-full bg-signal" />
+                  <span className="font-mono uppercase text-[9.5px] tracking-[0.22em] text-warm bg-deep/70 px-2 py-1 backdrop-blur-sm">
+                    fig. {number}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

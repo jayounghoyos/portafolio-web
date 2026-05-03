@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import HudFrame from "../ui/HudFrame";
 import AssemblyHud from "../ui/AssemblyHud";
+import MagneticLink from "../ui/MagneticLink";
 
 const ChassisCanvas = dynamic(() => import("../three/ChassisCanvas"), {
   ssr: false,
@@ -17,102 +17,131 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative pt-20 pb-24 lg:pt-28 lg:pb-32 min-h-[92vh] flex items-center overflow-hidden"
+      className="panel-deep relative min-h-screen overflow-hidden"
     >
-      {/* Blueprint grid layer */}
+      {/* Full-bleed chassis canvas as background */}
+      <div className="absolute inset-0 z-0">
+        <ChassisCanvas />
+      </div>
+
+      {/* Faint grid overlay */}
       <div
-        className="absolute inset-0 bg-grid-dotted pointer-events-none"
+        className="absolute inset-0 bg-grid-dotted pointer-events-none z-[1]"
         aria-hidden
       />
 
-      {/* Edge ruler ticks */}
+      {/* Gradient shade so text reads against the canvas */}
       <div
-        className="hidden lg:block absolute left-6 top-32 bottom-32 w-px ruler-y opacity-60 pointer-events-none"
-        aria-hidden
-      />
-      <div
-        className="hidden lg:block absolute right-6 top-32 bottom-32 w-px ruler-y opacity-60 pointer-events-none"
+        className="absolute inset-0 hero-text-shade pointer-events-none z-[2]"
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 lg:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-        <div className="lg:col-span-7 flex flex-col gap-7 relative z-10">
-          {/* Stamped index */}
-          <div className="flex items-center gap-4">
-            <span className="font-mono uppercase text-[11px] tracking-[0.22em] text-mute">
-              § 00 &nbsp;/&nbsp; INDEX
-            </span>
-            <span className="h-px flex-1 bg-rule" />
-            <span className="font-mono uppercase text-[11px] tracking-[0.22em] text-mute">
-              MEDELLÍN · CO
+      {/* HUD readouts (live state, sys id) */}
+      <div className="absolute inset-0 z-[3] pointer-events-none">
+        <AssemblyHud variant="dark" />
+      </div>
+
+      {/* Watermark numeral */}
+      <span
+        className="watermark-num"
+        style={{
+          right: "-1rem",
+          bottom: "2rem",
+          color: "rgba(239, 231, 215, 0.05)",
+        }}
+        aria-hidden
+      >
+        00
+      </span>
+
+      {/* Vertical side label */}
+      <span
+        className="hidden lg:block absolute left-6 top-1/2 -translate-y-1/2 z-[5] vertical-label font-mono uppercase text-[10px] tracking-[0.32em] text-warm/50 pointer-events-none"
+        aria-hidden
+      >
+        EAFIT &middot; MEDELLÍN &middot; 2026
+      </span>
+
+      {/* Content */}
+      <div className="relative z-[4] min-h-screen flex flex-col justify-end pb-20 lg:pb-24 pt-28 lg:pt-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-12 w-full">
+          {/* Top-row meta */}
+          <div className="flex items-baseline justify-between mb-12 lg:mb-20">
+            <div className="flex items-center gap-3 text-warm/70">
+              <span className="w-1.5 h-1.5 rounded-full bg-signal ambient-pulse" />
+              <span className="font-mono uppercase text-[11px] tracking-[0.22em]">
+                Portfolio · 2026 · v1.0
+              </span>
+            </div>
+            <span className="hidden sm:inline font-mono uppercase text-[11px] tracking-[0.22em] text-warm/55">
+              Juan Andrés Young Hoyos
             </span>
           </div>
 
-          <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink">
-            Juan Andrés Young Hoyos
-          </p>
-
-          <h1 className="font-serif text-balance leading-[1.0]">
+          {/* Massive headline */}
+          <h1 className="display-xl text-warm text-balance max-w-[16ch]">
             Machine learning,
             <br />
-            robotics, and the
+            <span className="text-warm/85">robotics,</span>
             <br />
-            <span className="italic text-signal">systems around them.</span>
+            <span className="italic text-signal">and what holds them up.</span>
           </h1>
 
-          <p className="text-lg lg:text-xl text-ink/85 max-w-measure text-pretty">
-            Engineering student at EAFIT. I design, model, and program physical
-            machines that learn — currently a 4-motor vehicle platform and the
-            perception stack to drive it. Full-stack when the model needs an
-            interface.
-          </p>
-
-          <div className="datum-line mt-1" aria-hidden />
-
-          <div className="flex flex-wrap gap-x-8 gap-y-3">
-            <a
-              href="#chassis"
-              className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink hover:text-signal inline-flex items-center gap-2"
-            >
-              <span aria-hidden>↗</span> Inspect chassis
-            </a>
-            <a
-              href="#work"
-              className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink hover:text-signal inline-flex items-center gap-2"
-            >
-              <span aria-hidden>↓</span> Selected work
-            </a>
-            <a
-              href="#now"
-              className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink hover:text-signal inline-flex items-center gap-2"
-            >
-              <span aria-hidden>→</span> Currently
-            </a>
+          {/* Sub-block */}
+          <div className="mt-10 lg:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-6 lg:col-start-1">
+              <p className="text-lg lg:text-xl text-warm/80 max-w-[44ch] text-pretty leading-[1.55]">
+                Engineering student at EAFIT building a four-motor vehicle
+                platform — from CAD to controller, with the perception stack
+                that drives it.
+              </p>
+            </div>
+            <div className="lg:col-span-5 lg:col-start-8 flex flex-wrap items-end gap-x-6 gap-y-4 self-end">
+              <MagneticLink
+                href="#chassis"
+                className="cursor-grow group inline-flex items-center gap-3 px-5 py-3 bg-signal text-deep font-mono uppercase text-[11px] tracking-[0.22em] hover:bg-signal-soft transition-colors"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-deep" />
+                Inspect chassis
+                <span className="transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </MagneticLink>
+              <MagneticLink
+                href="#work"
+                strength={0.2}
+                className="cursor-grow font-mono uppercase text-[11px] tracking-[0.22em] text-warm hover:text-signal transition-colors inline-flex items-center gap-2"
+              >
+                Selected work
+                <span aria-hidden>↓</span>
+              </MagneticLink>
+            </div>
           </div>
 
-          {/* Spec strip */}
-          <dl className="mt-4 grid grid-cols-3 gap-6 max-w-md font-mono text-[11px] uppercase tracking-[0.18em]">
+          {/* Spec strip at very bottom */}
+          <div className="mt-12 lg:mt-16 grid grid-cols-3 gap-6 max-w-2xl border-t border-warm/15 pt-6 font-mono text-[10.5px] uppercase tracking-[0.20em]">
             <div>
-              <dt className="text-mute">Discipline</dt>
-              <dd className="text-ink mt-1">ML × Robotics</dd>
+              <p className="text-warm/55 mb-1">Discipline</p>
+              <p className="text-warm">ML × Robotics × Full-stack</p>
             </div>
             <div>
-              <dt className="text-mute">Build</dt>
-              <dd className="text-ink mt-1">v0.3 · 2026</dd>
+              <p className="text-warm/55 mb-1">Build</p>
+              <p className="text-warm">v0.3 · 2026</p>
             </div>
             <div>
-              <dt className="text-mute">Status</dt>
-              <dd className="text-signal mt-1">In dev</dd>
+              <p className="text-warm/55 mb-1">Status</p>
+              <p className="text-signal">Open · receiving briefs</p>
             </div>
-          </dl>
+          </div>
         </div>
+      </div>
 
-        <div className="lg:col-span-5 h-[60vh] lg:h-[78vh] w-full relative z-10">
-          <HudFrame className="w-full h-full">
-            <AssemblyHud />
-            <ChassisCanvas />
-          </HudFrame>
-        </div>
+      {/* Scroll cue */}
+      <div className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-[5] flex-col items-center gap-2 pointer-events-none">
+        <span className="font-mono uppercase text-[10px] tracking-[0.32em] text-warm/55">
+          Scroll
+        </span>
+        <span className="w-px h-10 bg-warm/40 ambient-pulse" />
       </div>
     </section>
   );

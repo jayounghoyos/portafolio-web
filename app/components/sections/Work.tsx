@@ -5,7 +5,7 @@ import { selected } from "../../lib/projects";
 
 export default function Work() {
   return (
-    <section id="work" className="py-24 lg:py-32 relative">
+    <section id="work" className="py-24 lg:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-dotted opacity-50 pointer-events-none" aria-hidden />
       <div className="relative mx-auto max-w-6xl px-6 lg:px-10">
         <SectionHeader

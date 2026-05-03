@@ -41,6 +41,8 @@ export const metadata: Metadata = {
   },
 };
 
+import CustomCursor from "./components/ui/CustomCursor";
+
 export default function RootLayout({
   children,
 }: {
@@ -51,7 +53,10 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <CustomCursor />
+        {children}
+      </body>
     </html>
   );
 }

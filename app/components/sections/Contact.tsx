@@ -16,10 +16,15 @@ const links = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 lg:py-32 relative border-t border-rule">
+    <section
+      id="contact"
+      className="panel-deep py-24 lg:py-32 relative overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-grid-dotted pointer-events-none" aria-hidden />
       <div className="relative mx-auto max-w-6xl px-6 lg:px-10">
         <SectionHeader
           index="06"
+          variant="dark"
           kicker="Contact"
           title={
             <>
@@ -38,23 +43,34 @@ export default function Contact() {
                 href={l.href}
                 target={l.href.startsWith("http") ? "_blank" : undefined}
                 rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group flex items-baseline justify-between gap-4 border-b border-rule py-4 hover:border-ink/40 transition-colors"
+                className="cursor-grow group flex items-baseline justify-between gap-4 border-b border-warm/15 py-4 hover:border-signal/60 transition-colors"
               >
                 <div>
-                  <p className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-mute">
+                  <p className="font-mono uppercase text-[10.5px] tracking-[0.22em] text-warm/55">
                     {String(i + 1).padStart(2, "0")} · {l.label}
                   </p>
-                  <p className="font-serif text-xl mt-1 group-hover:text-signal transition-colors">
+                  <p className="font-serif text-2xl mt-1 text-warm group-hover:text-signal transition-colors">
                     {l.value}
                   </p>
                 </div>
                 <ArrowUpRight
-                  size={18}
-                  className="text-mute group-hover:text-signal transition-colors shrink-0 self-center"
+                  size={20}
+                  className="text-warm/55 group-hover:text-signal group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all shrink-0 self-center"
                 />
               </a>
             </Reveal>
           ))}
+        </div>
+
+        {/* Big closing statement */}
+        <div className="mt-24 lg:mt-32 max-w-4xl">
+          <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-warm/55 mb-5">
+            ◆ Off-record
+          </p>
+          <p className="display-lg text-warm text-balance leading-[1.05]">
+            Let&apos;s build something that{" "}
+            <span className="italic text-signal">moves on its own</span>.
+          </p>
         </div>
       </div>
     </section>

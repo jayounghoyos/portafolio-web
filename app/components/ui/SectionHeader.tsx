@@ -8,6 +8,7 @@ type Props = {
   description?: ReactNode;
   variant?: "light" | "dark";
   className?: string;
+  watermark?: boolean;
 };
 
 export default function SectionHeader({
@@ -18,10 +19,21 @@ export default function SectionHeader({
   description,
   variant = "light",
   className = "",
+  watermark = true,
 }: Props) {
   return (
-    <header className={`flex flex-col ${className}`}>
-      <div className="flex items-baseline justify-between gap-6">
+    <header className={`relative flex flex-col ${className}`}>
+      {watermark ? (
+        <span
+          className="watermark-num"
+          style={{ right: "-0.5rem", top: "-3rem" }}
+          aria-hidden
+        >
+          {index}
+        </span>
+      ) : null}
+
+      <div className="relative flex items-baseline justify-between gap-6">
         <div className="flex items-baseline gap-4">
           <span
             className={`font-mono text-xs ${
@@ -49,11 +61,13 @@ export default function SectionHeader({
         ) : null}
       </div>
 
-      <h2 className="font-serif text-balance max-w-measure mt-6">{title}</h2>
+      <h2 className="relative display-lg text-balance max-w-measure mt-6">
+        {title}
+      </h2>
 
       {description ? (
         <p
-          className={`mt-5 max-w-measure text-pretty leading-[1.65] ${
+          className={`relative mt-5 max-w-measure text-pretty leading-[1.65] ${
             variant === "dark" ? "text-warm/85" : "text-ink/80"
           }`}
         >
@@ -61,7 +75,7 @@ export default function SectionHeader({
         </p>
       ) : null}
 
-      <div className="datum-line mt-8" aria-hidden />
+      <div className="relative datum-line mt-8" aria-hidden />
     </header>
   );
 }

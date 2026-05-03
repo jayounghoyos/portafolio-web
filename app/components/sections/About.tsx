@@ -4,7 +4,7 @@ import { education, coursework, awards, cvPdfPath } from "../../lib/cv";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 lg:py-32 relative border-t border-rule">
+    <section id="about" className="py-24 lg:py-32 relative border-t border-rule overflow-hidden">
       <div className="absolute inset-0 bg-grid-dotted opacity-50 pointer-events-none" aria-hidden />
       <div className="relative mx-auto max-w-6xl px-6 lg:px-10">
         <SectionHeader

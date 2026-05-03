@@ -4,7 +4,7 @@ import { now, nowUpdated } from "../../lib/now";
 
 export default function Now() {
   return (
-    <section id="now" className="py-24 lg:py-32 relative">
+    <section id="now" className="py-24 lg:py-32 relative overflow-hidden">
       <div className="relative mx-auto max-w-6xl px-6 lg:px-10">
         <SectionHeader
           index="01"

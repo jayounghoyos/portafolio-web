@@ -2,7 +2,7 @@ import { socials } from "../../lib/cv";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-rule mt-32 bg-ink text-warm">
+    <footer className="border-t border-deep-soft mt-0 bg-deep text-warm">
       <div className="mx-auto max-w-6xl px-6 lg:px-10 py-14">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
           <div className="md:col-span-7">
