@@ -9,7 +9,7 @@ export default function About() {
     <section id="about" className="relative bg-paper overflow-hidden">
       <div className="border-y border-rule">
         <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 flex items-baseline justify-between">
-          <Folio current="06" total={issue.contents.length.toString().padStart(2, "0")} label="BYLINE" />
+          <Folio current="01" total={issue.contents.length.toString().padStart(2, "0")} label="BYLINE" />
           <span className="kicker">About the editor</span>
         </div>
       </div>
@@ -17,7 +17,7 @@ export default function About() {
       <div className="mx-auto max-w-7xl px-6 lg:px-12 pt-14 lg:pt-24 pb-16 lg:pb-24">
         <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8 mb-12 lg:mb-20">
           <div className="col-span-12 lg:col-span-8">
-            <p className="kicker mb-5">Article 06 · Byline</p>
+            <p className="kicker mb-5">Article 01 · Byline</p>
             <h2 className="article-title">
               A short version, until the
               <br />
@@ -26,7 +26,7 @@ export default function About() {
           </div>
           <div className="hidden lg:flex lg:col-span-4 items-end justify-end">
             <span className="font-serif italic text-[clamp(6rem,12vw,11rem)] text-accent leading-[0.85]">
-              06
+              01
             </span>
           </div>
         </div>

@@ -8,13 +8,14 @@ export const issue = {
   coordinates: "06°14′N 75°34′W",
   motto: "Machine learning, robotics, and what holds them up.",
   contents: [
-    { folio: "01", title: "Currently", anchor: "now" },
-    { folio: "02", title: "Selected Work", anchor: "work" },
-    { folio: "03", title: "Chassis Case Study", anchor: "chassis" },
-    { folio: "04", title: "Studies", anchor: "studies" },
-    { folio: "05", title: "Experiments", anchor: "experiments" },
-    { folio: "06", title: "Byline", anchor: "about" },
-    { folio: "07", title: "Letter", anchor: "contact" },
+    { folio: "01", title: "Byline", anchor: "about" },
+    { folio: "02", title: "Currently", anchor: "now" },
+    { folio: "03", title: "Selected Work", anchor: "work" },
+    { folio: "04", title: "The Toolbox", anchor: "stack" },
+    { folio: "05", title: "Chassis Case Study", anchor: "chassis" },
+    { folio: "06", title: "Studies", anchor: "studies" },
+    { folio: "07", title: "Experiments", anchor: "experiments" },
+    { folio: "08", title: "Letter", anchor: "contact" },
   ],
 };
 

@@ -1,31 +1,31 @@
-import Footer from "./components/ui/Footer";
+import Nav from "./components/ui/Nav";
 import PaperGrain from "./components/ui/PaperGrain";
-import FeatureTree from "./components/ui/FeatureTree";
 import Hero from "./components/sections/Hero";
+import About from "./components/sections/About";
 import Now from "./components/sections/Now";
 import Work from "./components/sections/Work";
+import Stack from "./components/sections/Stack";
 import ChassisCaseStudy from "./components/sections/ChassisCaseStudy";
 import Studies from "./components/sections/Studies";
 import Experiments from "./components/sections/Experiments";
-import About from "./components/sections/About";
 import Contact from "./components/sections/Contact";
 
 export default function Home() {
   return (
     <>
-      <FeatureTree />
+      <Nav />
       <PaperGrain />
 
-      <main className="lg:ml-[260px] bg-paper text-ink relative z-[2] min-h-screen">
+      <main className="bg-paper text-ink relative z-[2] min-h-screen">
         <Hero />
+        <About />
         <Now />
         <Work />
+        <Stack />
         <ChassisCaseStudy />
         <Studies />
         <Experiments />
-        <About />
         <Contact />
-        <Footer />
       </main>
     </>
   );

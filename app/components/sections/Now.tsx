@@ -8,7 +8,7 @@ export default function Now() {
     <section id="now" className="relative bg-paper overflow-hidden">
       <div className="border-b border-rule">
         <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 flex items-baseline justify-between">
-          <Folio current="01" total={issue.contents.length.toString().padStart(2, "0")} label="CURRENTLY" />
+          <Folio current="02" total={issue.contents.length.toString().padStart(2, "0")} label="CURRENTLY" />
           <span className="kicker">Last edit · {nowUpdated}</span>
         </div>
       </div>
@@ -17,7 +17,7 @@ export default function Now() {
         <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8">
           {/* Article opener — cols 1-7 */}
           <div className="col-span-12 lg:col-span-8">
-            <p className="kicker mb-5">Article 01</p>
+            <p className="kicker mb-5">Article 02</p>
             <h2 className="article-title">
               What I&apos;m{" "}
               <span className="text-accent-deep">building</span>,{" "}
@@ -29,7 +29,7 @@ export default function Now() {
           {/* Numeral on the right */}
           <div className="hidden lg:flex lg:col-span-4 items-end justify-end">
             <span className="font-serif italic text-[clamp(6rem,12vw,11rem)] text-accent leading-[0.85]">
-              01
+              02
             </span>
           </div>
         </div>

@@ -4,12 +4,38 @@ import type { Project } from "../../lib/projects";
 type Props = {
   project: Project;
   index: number;
+  big?: boolean;
 };
 
-export default function WorkCard({ project, index }: Props) {
+const STAGE_BY_ID: Record<string, string> = {
+  higiea: "shipped",
+  "magneto-ads": "shipped",
+  "claw-robot": "shipped",
+  "xbox-car": "shipped",
+  "game-recs": "study",
+  "celsius-nn": "study",
+  "movies-graph": "filed",
+  rickrollprinter: "filed",
+  "rick-display": "filed",
+};
+
+const STACK_BY_ID: Record<string, string> = {
+  higiea: "ROS · sensors",
+  "magneto-ads": "next.js · sklearn",
+  "claw-robot": "arduino · servos",
+  "xbox-car": "rpi · websocket",
+  "game-recs": "python · sklearn",
+  "celsius-nn": "tensorflow",
+  "movies-graph": "three.js · python",
+  rickrollprinter: "python · pypi",
+  "rick-display": "arduino · st7789",
+};
+
+export default function WorkCard({ project, index, big = false }: Props) {
   const number = String(index + 1).padStart(2, "0");
   const link = project.href ?? project.repo;
-  const total = 4;
+  const stage = STAGE_BY_ID[project.id] ?? "—";
+  const stackHint = STACK_BY_ID[project.id] ?? project.domain.toLowerCase();
 
   return (
     <a
@@ -17,57 +43,124 @@ export default function WorkCard({ project, index }: Props) {
       target={link?.startsWith("http") ? "_blank" : undefined}
       rel={link?.startsWith("http") ? "noopener noreferrer" : undefined}
       data-cursor-label={`Open ${project.title}`}
-      className="cursor-grow group block py-12 lg:py-16 border-t border-rule first:border-t-0"
+      className={`cursor-grow group relative flex flex-col border border-rule bg-paper hover:border-ink/60 transition-colors duration-300 ${
+        big ? "lg:col-span-2 lg:row-span-2" : ""
+      }`}
     >
-      {/* Article header */}
-      <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8 items-baseline mb-6">
-        <div className="col-span-6 flex items-baseline gap-3">
-          <span className="font-serif italic text-3xl lg:text-4xl text-accent-deep">
-            {number}
+      {/* Image / hatch fallback */}
+      <div
+        className={`relative w-full overflow-hidden bg-warm/40 border-b border-rule ${
+          big ? "aspect-[16/9]" : "aspect-[4/3]"
+        }`}
+      >
+        {project.imgUrl ? (
+          <Image
+            src={project.imgUrl}
+            alt={project.title}
+            fill
+            sizes={big ? "(min-width: 1024px) 66vw, 100vw" : "(min-width: 1024px) 33vw, 100vw"}
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        ) : (
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 400 240"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden
+          >
+            <defs>
+              <pattern
+                id={`hatch-${project.id}`}
+                width="8"
+                height="8"
+                patternUnits="userSpaceOnUse"
+              >
+                <line x1="0" y1="0" x2="8" y2="8" stroke="#16130E" strokeOpacity="0.10" strokeWidth="0.6" />
+              </pattern>
+            </defs>
+            <rect width="400" height="240" fill={`url(#hatch-${project.id})`} />
+            <text
+              x="50%"
+              y="50%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              className="font-mono"
+              fill="#6E665B"
+              fontSize="11"
+              letterSpacing="3"
+            >
+              [ {project.title.toUpperCase()} ]
+            </text>
+          </svg>
+        )}
+
+        {/* Top-left tag */}
+        <div className="absolute top-3 left-3 inline-flex items-center gap-2 z-10">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+          <span className="font-mono uppercase text-[9.5px] tracking-[0.22em] text-warm bg-deep/85 px-2 py-1 backdrop-blur-sm">
+            {project.domain}
+            {stage !== "—" ? ` · ${stage}` : ""}
           </span>
-          <span className="kicker">/ {String(total).padStart(2, "0")} &middot; {project.domain}</span>
         </div>
-        <div className="col-span-6 text-right">
-          <span className="kicker">[ {project.year} ]</span>
-        </div>
+
+        {/* Top-right ID */}
+        <span className="absolute top-3 right-3 z-10 font-mono uppercase text-[9.5px] tracking-[0.18em] text-warm bg-deep/85 px-2 py-1 backdrop-blur-sm">
+          [ {number} ]
+        </span>
+
+        {/* Featured pulse */}
+        {big ? (
+          <span className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-2 font-mono uppercase text-[9.5px] tracking-[0.22em] text-deep bg-accent px-2 py-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-deep ambient-pulse" />
+            Featured
+          </span>
+        ) : null}
       </div>
 
-      {/* Spread */}
-      <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8 items-stretch">
-        {/* Image column */}
-        {project.imgUrl ? (
-          <div className="col-span-12 lg:col-span-6 order-1">
-            <div className="relative aspect-[5/4] overflow-hidden bg-rule scan-on-hover">
-              <Image
-                src={project.imgUrl}
-                alt={project.title}
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.05]"
-              />
-            </div>
+      {/* Spec strip */}
+      <div className="grid grid-cols-4 border-b border-rule">
+        {[
+          ["TYPE", project.domain.split(" ")[0].toLowerCase()],
+          ["STAGE", stage],
+          ["STACK", stackHint],
+          ["YEAR", project.year],
+        ].map(([k, v], i) => (
+          <div
+            key={k}
+            className={`px-3 py-2.5 ${i < 3 ? "border-r border-rule" : ""}`}
+          >
+            <p className="font-mono uppercase text-[9px] tracking-[0.2em] text-mute mb-0.5">
+              {k}
+            </p>
+            <p className="font-mono uppercase text-[10.5px] tracking-[0.10em] text-ink truncate">
+              {v}
+            </p>
           </div>
-        ) : null}
+        ))}
+      </div>
 
-        {/* Title column — overlaps image edge slightly on desktop */}
-        <div className="col-span-12 lg:col-span-6 order-2 flex flex-col justify-center mt-6 lg:mt-0 lg:-ml-6 relative z-10">
-          <h3 className="article-title text-ink leading-[0.96] mb-5">
-            <span className="group-hover:text-accent-deep transition-colors">
-              {project.title}
-            </span>
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-5">
+        <div className="flex items-baseline justify-between mb-2 gap-3">
+          <h3
+            className={`font-serif italic leading-[1.0] text-ink group-hover:text-accent-deep transition-colors ${
+              big ? "text-3xl lg:text-4xl" : "text-xl lg:text-2xl"
+            }`}
+          >
+            {project.title}
           </h3>
-          <p className="text-base lg:text-lg text-ink/85 max-w-[42ch] text-pretty leading-[1.55]">
-            {project.blurb}
-          </p>
-          <div className="mt-6 flex items-center gap-3 font-mono uppercase text-[11px] tracking-[0.22em]">
-            <span className="text-ink group-hover:text-accent-deep transition-colors inline-flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              Read full
-            </span>
-            <span className="font-serif italic text-2xl text-mute group-hover:text-accent-deep group-hover:translate-x-1 transition-all">
-              ↗
-            </span>
-          </div>
+          <span className="kicker shrink-0">[ {project.year} ]</span>
+        </div>
+        <p
+          className={`text-ink/80 leading-[1.55] text-pretty flex-1 ${
+            big ? "text-base lg:text-lg max-w-[52ch]" : "text-[14px]"
+          }`}
+        >
+          {project.blurb}
+        </p>
+        <div className="mt-4 flex items-center gap-2 font-mono uppercase text-[10px] tracking-[0.22em] text-ink/85 group-hover:text-accent-deep transition-colors">
+          <span>→ Read case study</span>
         </div>
       </div>
     </a>

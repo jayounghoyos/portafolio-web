@@ -41,7 +41,7 @@ export default function ChassisCaseStudy() {
       {/* Eyebrow strip */}
       <div className="border-b border-warm/15 bg-deep">
         <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 flex items-baseline justify-between">
-          <Folio current="03" total={issue.contents.length.toString().padStart(2, "0")} label="THE FEATURE" />
+          <Folio current="05" total={issue.contents.length.toString().padStart(2, "0")} label="THE FEATURE" />
           <span className="kicker">Drag · orbit · examine</span>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function ChassisCaseStudy() {
         <div className="lg:col-span-5 lg:py-32">
           {/* Big article opener */}
           <div className="border-b border-warm/15 pb-12 lg:pb-16 mb-12 lg:mb-20 lg:pt-24">
-            <p className="kicker mb-5">Article 03 &middot; Case study</p>
+            <p className="kicker mb-5">Article 05 &middot; Case study</p>
             <h2 className="article-title text-warm">
               The chassis,
               <br />
@@ -114,7 +114,7 @@ export default function ChassisCaseStudy() {
       {/* Bottom strip */}
       <div className="border-t border-warm/15">
         <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 flex items-baseline justify-between">
-          <Folio current="03" />
+          <Folio current="05" />
           <span className="kicker italic font-serif text-base">
             End of feature.
           </span>
