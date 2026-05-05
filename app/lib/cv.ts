@@ -21,11 +21,9 @@ export const awards = [
 ];
 
 export const socials = {
-  email: "juanmanuel12.13.jmyh81@gmail.com",
+  email: "juanandresyounghoyos@gmail.com",
   github: "https://github.com/jayounghoyos",
   linkedin:
     "https://www.linkedin.com/in/juan-andres-young-hoyos-9a3712236/",
   instagram: "https://www.instagram.com/juan_andres_young_hoyos/",
 };
-
-export const cvPdfPath = "/cv.pdf";

@@ -1,7 +1,7 @@
 import Reveal from "../ui/Reveal";
 import Folio from "../ui/Folio";
 import DropCap from "../ui/DropCap";
-import { education, coursework, awards, cvPdfPath } from "../../lib/cv";
+import { education, coursework, awards } from "../../lib/cv";
 import { issue } from "../../lib/issue";
 
 export default function About() {
@@ -52,11 +52,11 @@ export default function About() {
               still stand behind.
             </p>
             <a
-              href={cvPdfPath}
-              data-cursor-label="Download CV"
+              href="#contact"
+              data-cursor-label="Get in touch"
               className="cursor-grow mt-10 inline-flex items-center gap-3 px-5 py-3 border border-ink hover:bg-ink hover:text-paper transition-colors font-mono uppercase text-[11px] tracking-[0.22em]"
             >
-              Download CV (PDF)
+              Letter to the editor
               <span className="font-serif italic text-xl">↗</span>
             </a>
           </Reveal>
