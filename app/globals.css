@@ -124,18 +124,6 @@
   color: var(--color-mute);
 }
 
-/* Drop cap — first letter of body paragraph (paper dossier) */
-@utility dropcap {
-  &::first-letter {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 5em;
-    line-height: 0.85;
-    float: left;
-    margin: 0.05em 0.08em 0 0;
-  }
-}
-
 /* Log marker — `◆ LOG 03 / 08` corner labels */
 @utility log-marker {
   font-family: var(--font-mono);
@@ -147,21 +135,6 @@
 }
 
 /* ============ SURFACES ============ */
-
-/* Printed-report contrast panel (About dossier) */
-.panel-paper {
-  background-color: var(--color-paper);
-  color: var(--color-paper-ink);
-}
-.panel-paper .text-ink { color: var(--color-paper-ink); }
-.panel-paper .text-dim { color: rgb(22 19 14 / 0.75); }
-.panel-paper .kicker { color: var(--color-paper-mute); }
-.panel-paper .log-marker { color: var(--color-paper-ink); }
-.panel-paper .border-rule { border-color: var(--color-paper-rule); }
-.panel-paper ::selection {
-  background-color: rgb(200 217 88 / 0.85);
-  color: var(--color-paper-ink);
-}
 
 /* Signal panel (Uplink finale) */
 .panel-accent {
@@ -241,7 +214,6 @@
 /* Oversized entry numeral — recolored on light panels */
 .entry-numeral { color: rgb(200 217 88 / 0.8); }
 .panel-accent .entry-numeral { color: rgb(22 19 14 / 0.85); }
-.panel-paper .entry-numeral { color: var(--color-accent-deep); }
 
 /* ============ HAIRLINES ============ */
 

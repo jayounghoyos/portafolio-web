@@ -50,11 +50,11 @@ export default function About() {
             </a>
           </Reveal>
 
-          {/* Printed dossier — the paper contrast moment */}
+          {/* Personnel dossier — same console surface as the rest of the log */}
           <Reveal className="col-span-12 lg:col-span-5" delay={120}>
-            <div className="panel-paper border border-rule shadow-[0_0_0_1px_rgba(239,231,215,0.06),0_24px_60px_rgba(0,0,0,0.45)]">
-              <div className="flex items-baseline justify-between px-5 py-3 border-b border-rule">
-                <span className="log-marker">◆ PERSONNEL FILE</span>
+            <div className="border border-rule bg-panel shadow-[0_24px_60px_rgba(0,0,0,0.45)]">
+              <div className="flex items-baseline justify-between px-5 py-3 border-b border-rule bg-panel-2">
+                <span className="log-marker"><span className="text-accent">◆</span> PERSONNEL FILE</span>
                 <span className="kicker">{operator.callsign} · {operator.updated}</span>
               </div>
 
@@ -64,7 +64,7 @@ export default function About() {
                   <ul className="space-y-3 border-t border-rule pt-4">
                     {education.map((e) => (
                       <li key={e.school}>
-                        <p className="font-serif italic text-2xl">{e.school}</p>
+                        <p className="font-serif italic text-2xl text-ink">{e.school}</p>
                         <p className="text-sm text-dim mt-0.5">
                           {e.detail} — {e.location}
                         </p>
@@ -81,10 +81,10 @@ export default function About() {
                         key={c}
                         className="flex items-baseline gap-4 py-2 border-b border-rule"
                       >
-                        <span className="font-mono text-[10px] w-6 opacity-60">
+                        <span className="font-mono text-[10px] w-6 text-mute">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="text-[15px]">{c}</span>
+                        <span className="text-[15px] text-dim">{c}</span>
                       </li>
                     ))}
                   </ul>
@@ -98,10 +98,10 @@ export default function About() {
                         key={a}
                         className="flex items-baseline gap-4 py-2 border-b border-rule"
                       >
-                        <span className="font-mono text-[10px] w-6 opacity-60">
+                        <span className="font-mono text-[10px] w-6 text-mute">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="text-[15px] italic">{a}</span>
+                        <span className="text-[15px] italic text-dim">{a}</span>
                       </li>
                     ))}
                   </ul>
