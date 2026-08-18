@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type JSX, type ReactNode } from "react";
-import { animate, createScope, onScroll, stagger } from "animejs";
+import { animate, createScope, cubicBezier, onScroll, stagger } from "animejs";
 
 type RevealProps = {
   children: ReactNode;
@@ -47,7 +47,7 @@ export default function Reveal({
         opacity: [0, 1],
         translateY: [14, 0],
         duration: 700,
-        ease: "cubicBezier(0.2, 0.6, 0.2, 1)",
+        ease: cubicBezier(0.2, 0.6, 0.2, 1),
         delay: cascade ? stagger(70, { start: delay }) : delay,
         autoplay: onScroll({
           target: node,

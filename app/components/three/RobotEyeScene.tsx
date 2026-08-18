@@ -110,7 +110,7 @@ function DetectionBox({ target, index }: { target: DetectionTarget; index: numbe
       <Html
         position={[size[0] / 2, size[1] / 2 + 0.05, size[2] / 2]}
         center={false}
-        distanceFactor={6}
+        distanceFactor={2.2}
         zIndexRange={[30, 0]}
       >
         <a
@@ -169,9 +169,10 @@ function CameraRig({ animate }: { animate: boolean }) {
 function Lighting() {
   return (
     <>
-      <ambientLight intensity={0.25} />
-      <directionalLight position={[6, 8, 4]} intensity={0.9} color="#FFE9C7" />
-      <pointLight position={[-3, 2, 3]} intensity={0.5} color="#C8D958" />
+      <hemisphereLight args={["#EFE7D7", "#1B1812", 0.8]} />
+      <directionalLight position={[6, 8, 4]} intensity={1.9} color="#FFE9C7" />
+      <directionalLight position={[-4, 3, -6]} intensity={0.7} color="#B8C4D6" />
+      <pointLight position={[-3, 2, 3]} intensity={0.9} color="#C8D958" />
       <pointLight position={[3, 2, -3]} intensity={0.35} color="#7AC5D8" />
     </>
   );

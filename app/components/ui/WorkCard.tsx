@@ -17,9 +17,7 @@ export default function WorkCard({ project, index, big = false }: Props) {
       target={link?.startsWith("http") ? "_blank" : undefined}
       rel={link?.startsWith("http") ? "noopener noreferrer" : undefined}
       data-cursor-label={`Open ${project.title}`}
-      className={`cursor-grow group relative flex flex-col border border-rule bg-panel hover:border-accent/50 transition-colors duration-300 ${
-        big ? "lg:col-span-2 lg:row-span-2" : ""
-      }`}
+      className="cursor-grow group relative flex flex-col h-full border border-rule bg-panel hover:border-accent/50 transition-colors duration-300"
     >
       {/* Image / hatch fallback */}
       <div
@@ -78,7 +76,7 @@ export default function WorkCard({ project, index, big = false }: Props) {
         <div className="absolute top-3 left-3 inline-flex items-center gap-2 z-10">
           <span className="w-1.5 h-1.5 rounded-full bg-accent" />
           <span className="font-mono uppercase text-[9.5px] tracking-[0.22em] text-ink bg-void/85 px-2 py-1 backdrop-blur-sm">
-            {project.domain} · {project.stage}
+            {project.domain}
           </span>
         </div>
 

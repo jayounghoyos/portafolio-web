@@ -43,14 +43,14 @@ export const ROLE_MATERIAL: Record<
     emissiveIntensity?: number;
   }
 > = {
-  chassis: { color: "#2D2A24", metalness: 0.45, roughness: 0.50 },
-  motor: { color: "#1A1814", metalness: 0.45, roughness: 0.50 },
-  mount: { color: "#5C4F3D", metalness: 0.40, roughness: 0.55 },
-  housing: { color: "#5C4F3D", metalness: 0.40, roughness: 0.55 },
-  axle: { color: "#A89A8C", metalness: 0.90, roughness: 0.20 },
-  gear: { color: "#C8D958", metalness: 0.65, roughness: 0.32, emissive: "#C8D958", emissiveIntensity: 0.18 },
-  screw: { color: "#B8B093", metalness: 0.78, roughness: 0.28 },
-  default: { color: "#2D2A24", metalness: 0.40, roughness: 0.55 },
+  chassis: { color: "#8A8171", metalness: 0.25, roughness: 0.5 },
+  motor: { color: "#5A5348", metalness: 0.3, roughness: 0.45 },
+  mount: { color: "#8A7355", metalness: 0.25, roughness: 0.55 },
+  housing: { color: "#8A7355", metalness: 0.25, roughness: 0.55 },
+  axle: { color: "#C4B8A8", metalness: 0.5, roughness: 0.3 },
+  gear: { color: "#C8D958", metalness: 0.65, roughness: 0.32, emissive: "#C8D958", emissiveIntensity: 0.32 },
+  screw: { color: "#C8C0A4", metalness: 0.45, roughness: 0.35 },
+  default: { color: "#6E675B", metalness: 0.25, roughness: 0.55 },
 };
 
 /** Assembly order: plates first, fasteners last. */
@@ -133,6 +133,9 @@ export function prepareChassis(
         roughness: cfg.roughness,
         emissive: cfg.emissive ?? "#000000",
         emissiveIntensity: cfg.emissiveIntensity ?? 0,
+        // The Onshape export's materials are double-sided; several plates have
+        // inverted normals, so FrontSide leaves them unlit black.
+        side: THREE.DoubleSide,
       });
     }
     return materialCache[role]!;

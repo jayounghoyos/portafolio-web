@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import { createScope, createTimeline } from "animejs";
+import { createScope, createTimeline, cubicBezier } from "animejs";
 import MagneticLink from "../ui/MagneticLink";
 import { operator } from "../../lib/log";
 
@@ -53,7 +53,7 @@ export default function Hero() {
 
     const scope = createScope({ root: node }).add(() => {
       createTimeline({
-        defaults: { ease: "cubicBezier(0.2, 0.6, 0.2, 1)", duration: 600 },
+        defaults: { ease: cubicBezier(0.2, 0.6, 0.2, 1), duration: 600 },
       })
         .add("[data-boot='hud-top']", { opacity: [0, 1], translateY: [-10, 0] }, 200)
         .add("[data-boot='reticle']", { opacity: [0, 1], scale: [1.15, 1] }, "-=350")

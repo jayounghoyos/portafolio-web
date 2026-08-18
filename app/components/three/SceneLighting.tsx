@@ -4,11 +4,11 @@ export default function SceneLighting() {
   return (
     <>
       {/* Soft ambient base */}
-      <ambientLight intensity={0.45} />
+      <hemisphereLight args={["#EFE7D7", "#2A251D", 0.9]} />
       {/* Cinematic warm key */}
       <directionalLight
         position={[5, 7, 4]}
-        intensity={1.4}
+        intensity={1.9}
         color="#FFF1D6"
       />
       {/* Chartreuse rim from lower-left for accent */}

@@ -33,8 +33,8 @@ export default function OpengraphImage() {
             color: "#837B6A",
           }}
         >
-          <span>◆ SENSOR_01 · CHASSIS POV · FEED LIVE</span>
-          <span>06°14′N 75°34′W</span>
+          <span>SENSOR_01 / CHASSIS POV / FEED LIVE</span>
+          <span>6.24 N, 75.58 W</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -45,7 +45,7 @@ export default function OpengraphImage() {
             </span>
           </div>
           <div style={{ marginTop: 28, fontSize: 30, color: "#B0A793" }}>
-            ML &amp; Robotics Engineer — building machines that learn.
+            ML &amp; Robotics Engineer - building machines that learn.
           </div>
         </div>
 
@@ -60,8 +60,8 @@ export default function OpengraphImage() {
             paddingTop: 24,
           }}
         >
-          <span style={{ color: "#C8D958" }}>▸ jayoungh.dev</span>
-          <span>LOG 00–08 · MEDELLÍN — CO</span>
+          <span style={{ color: "#C8D958" }}>&gt; jayoungh.dev</span>
+          <span>LOG 00-08 / MEDELLIN, CO</span>
         </div>
       </div>
     ),
