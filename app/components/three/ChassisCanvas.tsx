@@ -6,6 +6,9 @@ import { OrbitControls } from "@react-three/drei";
 import SceneLighting from "./SceneLighting";
 import ChassisModel from "./ChassisModel";
 import { useReducedMotion } from "../../lib/useReducedMotion";
+import { installThreeConsoleFilter } from "../../lib/threeConsole";
+
+installThreeConsoleFilter();
 
 type Props = {
   interactive?: boolean;
