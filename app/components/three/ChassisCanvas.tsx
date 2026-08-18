@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import SceneLighting from "./SceneLighting";
 import ChassisModel from "./ChassisModel";
+import { useReducedMotion } from "../../lib/useReducedMotion";
 
 type Props = {
   interactive?: boolean;
@@ -29,25 +30,13 @@ export default function ChassisCanvas({
   static: isStatic = false,
   lazy = false,
 }: Props) {
-  const [reduced, setReduced] = useState(false);
+  const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(!lazy);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener?.("change", handler);
-    return () => mq.removeEventListener?.("change", handler);
-  }, []);
-
-  useEffect(() => {
     if (!lazy) return;
     if (mounted) return;
-    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
-      setMounted(true);
-      return;
-    }
     const node = wrapperRef.current;
     if (!node) return;
 

@@ -133,6 +133,12 @@ type AnimatedNode = {
 
 const TARGET_DIAGONAL = 2.6;
 
+/** Deterministic pseudo-random in [0, 1) from an integer seed — stable across renders. */
+function hash01(seed: number) {
+  const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 type Props = {
   assembleCycle?: boolean;
   /**
@@ -274,9 +280,9 @@ export default function RealAssembly({
         explodeOffset: localOffset,
         role,
         delay: ROLE_DELAY[role] + Math.min(distFromCenter / TARGET_DIAGONAL, 1) * 0.15,
-        spinSpeed: spinSpeed * (Math.random() > 0.5 ? 1 : -1),
+        spinSpeed: spinSpeed * (hash01(animatedNodes.length) > 0.5 ? 1 : -1),
         spinAxis: spinAxisLocal,
-        breatheSeed: Math.random() * Math.PI * 2,
+        breatheSeed: hash01(animatedNodes.length + 57) * Math.PI * 2,
       });
     });
 
