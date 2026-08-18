@@ -6,7 +6,7 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 type AssemblyPhase = "assembling" | "assembled" | "disassembling" | "idle";
 
-const MODEL_URL = "/models/chassis.gltf";
+const MODEL_URL = "/models/chassis.glb";
 useGLTF.preload(MODEL_URL);
 
 const ASSEMBLE_DURATION = 5.0;
@@ -61,8 +61,9 @@ type Role =
 function detectRole(name: string): Role {
   const n = name.toLowerCase();
   if (n.includes("vis")) return "screw";
-  if (n.includes("engrenage")) return "gear";
+  // "axe" before "engrenage": the axle part is named "Axe engrenage".
   if (n.includes("axe")) return "axle";
+  if (n.includes("engrenage")) return "gear";
   if (n.includes("enveloppe")) return "housing";
   if (n.includes("maintien")) return "mount";
   if (n.includes("moteur")) return "motor";
@@ -220,6 +221,28 @@ export default function RealAssembly({
     // Re-update world matrices after scaling
     root.updateMatrixWorld(true);
 
+    // Each "Motor <n>" group is one corner drive unit. All parts of a cluster
+    // explode along the SAME axis — the cluster's horizontal outward direction
+    // from the assembly center — so the drive unit slides off coherently
+    // (mechanically plausible) instead of star-bursting radially.
+    const clusterDir = new Map<THREE.Object3D, THREE.Vector3>();
+    cloned.traverse((node) => {
+      if (!/^motor\b/i.test(node.name ?? "")) return;
+      const center = new THREE.Box3().setFromObject(node).getCenter(new THREE.Vector3());
+      const dir = new THREE.Vector3(center.x, 0, center.z);
+      if (dir.lengthSq() < 1e-8) dir.set(1, 0, 0);
+      clusterDir.set(node, dir.normalize());
+    });
+    const findCluster = (n: THREE.Object3D): THREE.Vector3 | null => {
+      let cursor: THREE.Object3D | null = n;
+      while (cursor) {
+        const dir = clusterDir.get(cursor);
+        if (dir) return dir;
+        cursor = cursor.parent;
+      }
+      return null;
+    };
+
     // Animation targets — every "occurrence" node carries a baked transform.
     // Find them by name (Onshape convention) AND by having a non-zero initial position.
     const animatedNodes: AnimatedNode[] = [];
@@ -236,18 +259,20 @@ export default function RealAssembly({
       const worldPos = new THREE.Vector3();
       node.getWorldPosition(worldPos);
 
-      // Explode direction = outward from world origin (which is now the bbox center)
-      const dir = worldPos.clone();
-      const distFromCenter = dir.length();
-      if (distFromCenter > 1e-6) {
-        dir.divideScalar(distFromCenter);
-      } else {
-        // dead center — pick a small upward bias
-        dir.set(0, 1, 0);
-      }
-      // Bias chassis plates to explode vertically
+      const distFromCenter = worldPos.length();
+
+      // Explode direction: cluster axis for drive-unit parts, vertical for
+      // chassis plates, radial fallback for anything else.
+      const cluster = findCluster(node);
+      const dir = new THREE.Vector3();
       if (role === "chassis") {
         dir.set(0, worldPos.y >= 0 ? 1 : -1, 0);
+      } else if (cluster) {
+        dir.copy(cluster);
+      } else if (distFromCenter > 1e-6) {
+        dir.copy(worldPos).divideScalar(distFromCenter);
+      } else {
+        dir.set(0, 1, 0);
       }
 
       const explodeMag =
@@ -266,11 +291,12 @@ export default function RealAssembly({
       const r = new THREE.Matrix3().setFromMatrix4(parentInv);
       localOffset.applyMatrix3(r);
 
-      // Spin axis preference: gears spin around their LOCAL Y unless geometry suggests otherwise
+      // Gears and axles spin around their cluster's axle axis (world → local).
       const spinSpeed = ROLE_SPIN[role] ?? 0;
-      // Use the direction in local space as a proxy: gears typically mount on an axle pointing
-      // outward — spin around the axis that's most aligned with the world's "up" (Y) in local frame
-      const spinAxisLocal = new THREE.Vector3(0, 1, 0).applyMatrix3(r).normalize();
+      const spinAxisLocal = (cluster ?? new THREE.Vector3(0, 1, 0))
+        .clone()
+        .applyMatrix3(r)
+        .normalize();
 
       animatedNodes.push({
         node,
