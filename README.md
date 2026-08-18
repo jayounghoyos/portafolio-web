@@ -1,32 +1,53 @@
-# Portfolio Project
+# jayoungh.dev — The Machine Log
 
-## Introduction
-This is my personal portfolio project built with Next.js, demonstrating my skills and projects. Below are the steps to get started with the development server and information on deploying the project.
+Personal portfolio of **Juan Andrés Young Hoyos** (ML & Robotics Engineer), built as the
+operator console of one machine: the four-motor vehicle chassis I'm actually building.
+The hero is the machine's point of view — every detection box is real work — and the
+`MACHINE` section assembles the real Onshape CAD model as you scroll.
 
-## Start
+## Stack
 
-To run the development server, use the following command:
+- **Next.js 16** (App Router, Turbopack) · **React 19**
+- **three.js + @react-three/fiber v9 + drei v10** — WebGL scenes
+- **anime.js v4** — boot timeline, scroll-linked reveals, scroll-scrubbed assembly
+- **Tailwind CSS v4** — CSS-first design tokens in `app/globals.css` (`@theme`)
+- **pnpm** — package manager
+
+## Develop
 
 ```bash
-npm run dev
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm build      # production build
+pnpm lint       # eslint (flat config)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+## The 3D pipeline
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The chassis is modeled in Onshape and exported as glTF (`assets/chassis-source.gltf`,
+26 MB, 1,868 primitives — not deployed). A build-time pipeline turns it into the
+0.6 MB binary the site ships:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+pnpm optimize:model   # assets/chassis-source.gltf -> public/models/chassis.glb
+```
 
-## Deploy on Vercel
+It welds vertices, merges primitives per mesh (≈6,400 → 59 draw calls), simplifies
+CAD over-tessellation (436k → 109k unique triangles), quantizes, and applies meshopt
+compression — while preserving the 59 named occurrence nodes that the runtime uses
+for role classification (French part names → chassis/motor/gear/axle/…) and per-part
+assembly animation. Re-run it whenever a new Onshape export lands.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com) from the creators of Next.js.
+## Layout
 
-## Previous Portfolio
-
-This was my last version of my portfolio built with HTML and CSS. You can view it [here](https://jayounghoyos.github.io/Portfolio/).
-
-## Credits
-
-Special thanks to Judy Gab for the tutorial that helped in building this portfolio. You can find the tutorial [here](https://github.com/judygab/nextjs-portfolio).
-
----
+```
+app/
+  lib/            content data (projects, cv, stack, now) + log registry
+  components/
+    motion/       anime.js layer (Reveal, split-title orchestrator)
+    three/        R3F scenes (hero POV, chassis assembly, shared prep)
+    sections/     the log entries (BOOT … UPLINK)
+    ui/           nav, telemetry rail, cards, cursor
+scripts/          model optimization pipeline
+assets/           raw CAD export (source of truth, not served)
+```

@@ -68,7 +68,6 @@ export const projects: Project[] = [
     tier: "selected",
     stage: "shipped",
     stackHint: "rpi · websocket",
-    imgUrl: "/images/projects/close.jpeg",
     repo: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
     href: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
   },
