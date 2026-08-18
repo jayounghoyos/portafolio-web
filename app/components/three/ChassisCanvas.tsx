@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import SceneLighting from "./SceneLighting";
@@ -13,16 +13,12 @@ installThreeConsoleFilter();
 type Props = {
   interactive?: boolean;
   className?: string;
+  /** External assembly progress 0..1 (scroll scrub writes here). */
+  progressRef: { current: number };
   /**
-   * When true, model renders in pre-assembled state with no per-part animation.
-   * Used by the hero canvas to share the page with the case-study canvas without
-   * paying for two parallel animation loops.
-   */
-  static?: boolean;
-  /**
-   * When true, the inner R3F Canvas only mounts once the wrapper enters the
-   * viewport (IntersectionObserver). Prevents both canvases from initializing
-   * + running on first paint.
+   * When true, the inner R3F Canvas only mounts once the wrapper nears the
+   * viewport (IntersectionObserver), and rendering pauses entirely while
+   * off-screen.
    */
   lazy?: boolean;
 };
@@ -30,40 +26,32 @@ type Props = {
 export default function ChassisCanvas({
   interactive = false,
   className = "",
-  static: isStatic = false,
+  progressRef,
   lazy = false,
 }: Props) {
   const reduced = useReducedMotion();
   const [mounted, setMounted] = useState(!lazy);
+  const [visible, setVisible] = useState(!lazy);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!lazy) return;
-    if (mounted) return;
     const node = wrapperRef.current;
-    if (!node) return;
-
+    if (!lazy || !node) return;
     const obs = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setMounted(true);
-            obs.disconnect();
-            break;
-          }
+          setVisible(entry.isIntersecting);
+          if (entry.isIntersecting) setMounted(true);
         }
       },
       { rootMargin: "200px" }
     );
     obs.observe(node);
     return () => obs.disconnect();
-  }, [lazy, mounted]);
+  }, [lazy]);
 
   return (
-    <div
-      ref={wrapperRef}
-      className={`relative w-full h-full ${className}`}
-    >
+    <div ref={wrapperRef} className={`relative w-full h-full ${className}`}>
       {mounted ? (
         <Canvas
           dpr={[1, 1.4]}
@@ -75,15 +63,13 @@ export default function ChassisCanvas({
             stencil: false,
             depth: true,
           }}
-          frameloop={isStatic ? "demand" : reduced ? "demand" : "always"}
+          frameloop={visible ? "always" : "never"}
           performance={{ min: 0.5 }}
           shadows={false}
           aria-label="3D chassis model"
         >
           <SceneLighting />
-          <Suspense fallback={null}>
-            <ChassisModel autoRotate={!reduced} static={isStatic} />
-          </Suspense>
+          <ChassisModel autoRotate={!reduced} progressRef={progressRef} />
           {interactive ? (
             <OrbitControls
               enablePan={false}

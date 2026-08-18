@@ -7,15 +7,11 @@ import RealAssembly from "./RealAssembly";
 
 type Props = {
   autoRotate?: boolean;
-  assembleCycle?: boolean;
-  static?: boolean;
+  /** External assembly progress 0..1 — forwarded to the part animator. */
+  progressRef: { current: number };
 };
 
-export default function ChassisModel({
-  autoRotate = true,
-  assembleCycle = true,
-  static: isStatic = false,
-}: Props) {
+export default function ChassisModel({ autoRotate = true, progressRef }: Props) {
   const group = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
@@ -26,7 +22,7 @@ export default function ChassisModel({
   return (
     <group ref={group}>
       <Suspense fallback={<PlaceholderChassis />}>
-        <RealAssembly assembleCycle={assembleCycle} static={isStatic} />
+        <RealAssembly progressRef={progressRef} />
       </Suspense>
     </group>
   );
