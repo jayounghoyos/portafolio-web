@@ -13,6 +13,7 @@ export default function CustomCursor() {
   const dotPos = useRef({ x: -100, y: -100 });
   const labelPos = useRef({ x: -100, y: -100 });
   const raf = useRef<number | null>(null);
+  const running = useRef(false);
   const ready = useRef(false);
 
   useEffect(() => {
@@ -29,6 +30,41 @@ export default function CustomCursor() {
     const label = labelRef.current!;
     if (!dot || !label) return;
 
+    const tick = () => {
+      const dx = target.current.x - dotPos.current.x;
+      const dy = target.current.y - dotPos.current.y;
+
+      // Dot follows tightly
+      dotPos.current.x += dx * 0.28;
+      dotPos.current.y += dy * 0.28;
+      dot.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;
+
+      // Label trails behind, offset diagonally
+      const offset = 28;
+      const ldx = target.current.x + offset - labelPos.current.x;
+      const ldy = target.current.y + offset - labelPos.current.y;
+      labelPos.current.x += ldx * 0.16;
+      labelPos.current.y += ldy * 0.16;
+      label.style.transform = `translate3d(${labelPos.current.x}px, ${labelPos.current.y}px, 0)`;
+
+      // Idle-stop: once everything has converged, park the loop.
+      if (
+        Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05 &&
+        Math.abs(ldx) < 0.05 && Math.abs(ldy) < 0.05
+      ) {
+        running.current = false;
+        return;
+      }
+      raf.current = requestAnimationFrame(tick);
+    };
+
+    const wake = () => {
+      if (!running.current) {
+        running.current = true;
+        raf.current = requestAnimationFrame(tick);
+      }
+    };
+
     const move = (e: PointerEvent) => {
       target.current.x = e.clientX;
       target.current.y = e.clientY;
@@ -40,6 +76,7 @@ export default function CustomCursor() {
         labelPos.current.x = e.clientX + 22;
         labelPos.current.y = e.clientY + 22;
       }
+      wake();
     };
 
     const onOver = (e: Event) => {
@@ -47,8 +84,7 @@ export default function CustomCursor() {
       const closest = t.closest?.(HOVER_SELECTOR);
       if (closest) {
         dot.classList.add("is-hover");
-        const labelText =
-          (closest as HTMLElement).dataset?.cursorLabel ?? "";
+        const labelText = (closest as HTMLElement).dataset?.cursorLabel ?? "";
         if (labelText) {
           label.textContent = labelText;
           label.classList.add("is-active");
@@ -67,25 +103,6 @@ export default function CustomCursor() {
     const onLeave = () => dot.classList.remove("is-ready");
     const onEnter = () => ready.current && dot.classList.add("is-ready");
 
-    const tick = () => {
-      // Dot follows tightly
-      dotPos.current.x += (target.current.x - dotPos.current.x) * 0.28;
-      dotPos.current.y += (target.current.y - dotPos.current.y) * 0.28;
-      dot.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;
-
-      // Label trails behind, offset diagonally
-      const offsetX = 28;
-      const offsetY = 28;
-      labelPos.current.x +=
-        (target.current.x + offsetX - labelPos.current.x) * 0.16;
-      labelPos.current.y +=
-        (target.current.y + offsetY - labelPos.current.y) * 0.16;
-      label.style.transform = `translate3d(${labelPos.current.x}px, ${labelPos.current.y}px, 0)`;
-
-      raf.current = requestAnimationFrame(tick);
-    };
-    raf.current = requestAnimationFrame(tick);
-
     window.addEventListener("pointermove", move, { passive: true });
     document.addEventListener("pointerover", onOver, true);
     document.addEventListener("pointerout", onOut, true);
@@ -97,6 +114,7 @@ export default function CustomCursor() {
     return () => {
       document.documentElement.classList.remove("has-cursor");
       if (raf.current) cancelAnimationFrame(raf.current);
+      running.current = false;
       window.removeEventListener("pointermove", move);
       document.removeEventListener("pointerover", onOver, true);
       document.removeEventListener("pointerout", onOut, true);

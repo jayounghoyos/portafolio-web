@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "./components/ui/CustomCursor";
+import MotionOrchestrator from "./components/motion/MotionOrchestrator";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,8 +31,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://jayoungh.dev"),
   openGraph: {
     title: "Juan Andrés Young Hoyos — ML & Robotics Engineer",
-    description:
-      "Robotics, machine learning, and the systems around them.",
+    description: "Robotics, machine learning, and the systems around them.",
     type: "website",
     locale: "en_US",
   },
@@ -40,8 +41,6 @@ export const metadata: Metadata = {
     description: "ML & Robotics Engineer",
   },
 };
-
-import CustomCursor from "./components/ui/CustomCursor";
 
 export default function RootLayout({
   children,
@@ -55,6 +54,7 @@ export default function RootLayout({
     >
       <body>
         <CustomCursor />
+        <MotionOrchestrator />
         {children}
       </body>
     </html>

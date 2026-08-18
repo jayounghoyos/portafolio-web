@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import MagneticLink from "../ui/MagneticLink";
-import { issue } from "../../lib/issue";
+import { operator } from "../../lib/log";
 
 const RobotEyeScene = dynamic(() => import("../three/RobotEyeScene"), {
   ssr: false,
@@ -97,7 +97,7 @@ export default function Hero() {
           <div className="hidden md:flex items-baseline gap-3">
             <span>SCENE · workshop</span>
             <span>·</span>
-            <span>LAT {issue.coordinates}</span>
+            <span>LAT {operator.coordinates}</span>
           </div>
           <div className="flex items-baseline gap-3">
             <span className="text-warm">{time}</span>

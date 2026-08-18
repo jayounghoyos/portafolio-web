@@ -1,5 +1,5 @@
 import Nav from "./components/ui/Nav";
-import PaperGrain from "./components/ui/PaperGrain";
+import TelemetryRail from "./components/ui/TelemetryRail";
 import Hero from "./components/sections/Hero";
 import About from "./components/sections/About";
 import Now from "./components/sections/Now";
@@ -14,9 +14,9 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <PaperGrain />
+      <TelemetryRail />
 
-      <main className="bg-paper text-ink relative z-[2] min-h-screen">
+      <main className="relative min-h-screen lg:pl-14">
         <Hero />
         <About />
         <Now />

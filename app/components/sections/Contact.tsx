@@ -1,7 +1,7 @@
-import Reveal from "../ui/Reveal";
-import Folio from "../ui/Folio";
+import Reveal from "../motion/Reveal";
+import LogHeader from "../ui/LogHeader";
 import { socials } from "../../lib/cv";
-import { issue } from "../../lib/issue";
+import { operator } from "../../lib/log";
 
 const links = [
   { label: "Email", href: `mailto:${socials.email}`, value: socials.email },
@@ -15,43 +15,19 @@ const links = [
 
 export default function Contact() {
   return (
-    <section
-      id="contact"
-      className="panel-accent relative overflow-hidden"
-    >
-      {/* Folio strip top */}
-      <div className="border-b border-ink/15">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12 py-3 flex items-baseline justify-between">
-          <Folio
-            current="08"
-            total={issue.contents.length.toString().padStart(2, "0")}
-            label="LETTER · COLOPHON"
-          />
-          <span className="kicker">Open · receiving briefs</span>
-        </div>
-      </div>
+    <section id="contact" className="panel-accent relative overflow-hidden">
+      <LogHeader
+        id="contact"
+        title={
+          <>
+            Uplink open. Let&apos;s build something that{" "}
+            <span className="italic">moves on its own</span>.
+          </>
+        }
+        meta="Channel open · receiving briefs"
+      />
 
-      {/* Main letter block */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-12 pt-14 lg:pt-24 pb-10 lg:pb-16">
-        <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8 mb-10 lg:mb-14">
-          <div className="col-span-12 lg:col-span-9">
-            <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink/65 mb-5">
-              Article 08 &middot; Letter to the editor
-            </p>
-            <h2 className="article-title text-ink">
-              Let&apos;s build
-              <br />
-              something that{" "}
-              <span className="italic">moves on its own</span>.
-            </h2>
-          </div>
-          <div className="hidden lg:flex lg:col-span-3 items-end justify-end">
-            <span className="font-serif italic text-[clamp(6rem,12vw,11rem)] text-ink/85 leading-[0.82]">
-              08
-            </span>
-          </div>
-        </div>
-
+      <div className="mx-auto max-w-7xl px-6 lg:px-12 pb-10 lg:pb-16">
         <div
           className="hair-rule mb-10 lg:mb-12"
           style={{ background: "rgba(22,19,14,0.25)" }}
@@ -59,10 +35,10 @@ export default function Contact() {
 
         <div className="grid grid-cols-12 gap-x-4 lg:gap-x-8">
           <div className="col-span-12 lg:col-span-5">
-            <p className="text-base lg:text-lg text-ink/90 max-w-[44ch] text-pretty leading-[1.55]">
+            <p className="text-base lg:text-lg text-paper-ink/90 max-w-[44ch] text-pretty leading-[1.55]">
               Open to research, robotics roles, and unreasonably interesting
-              projects. The fastest channel is email — replies usually
-              arrive the same day.
+              projects. The fastest channel is email — replies usually arrive
+              the same day.
             </p>
           </div>
 
@@ -73,22 +49,20 @@ export default function Contact() {
                   href={l.href}
                   target={l.href.startsWith("http") ? "_blank" : undefined}
                   rel={
-                    l.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
+                    l.href.startsWith("http") ? "noopener noreferrer" : undefined
                   }
                   data-cursor-label={`Open ${l.label}`}
-                  className="cursor-grow group flex items-baseline justify-between gap-4 border-b border-ink/25 py-3.5 hover:border-ink/80 transition-colors"
+                  className="cursor-grow group flex items-baseline justify-between gap-4 border-b border-paper-ink/25 py-3.5 hover:border-paper-ink/80 transition-colors"
                 >
                   <div>
-                    <p className="font-mono uppercase text-[10px] tracking-[0.22em] text-ink/55">
-                      {String(i + 1).padStart(2, "0")} · {l.label}
+                    <p className="font-mono uppercase text-[10px] tracking-[0.22em] text-paper-ink/70">
+                      CH {String(i + 1).padStart(2, "0")} · {l.label}
                     </p>
-                    <p className="font-serif italic text-lg lg:text-xl mt-0.5 text-ink group-hover:translate-x-1 transition-transform">
+                    <p className="font-serif italic text-lg lg:text-xl mt-0.5 text-paper-ink group-hover:translate-x-1 transition-transform">
                       {l.value}
                     </p>
                   </div>
-                  <span className="font-serif italic text-2xl text-ink/65 group-hover:text-ink transition-colors">
+                  <span className="font-serif italic text-2xl text-paper-ink/65 group-hover:text-paper-ink transition-colors">
                     ↗
                   </span>
                 </a>
@@ -97,22 +71,22 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Signature line — closes the page */}
+        {/* Signature — end of log */}
         <div className="mt-14 lg:mt-20 pb-6 grid grid-cols-12 gap-x-4 items-baseline">
           <div className="col-span-12 sm:col-span-7">
-            <p className="font-serif italic text-2xl lg:text-3xl text-ink leading-none">
-              — Yours,
+            <p className="font-serif italic text-2xl lg:text-3xl text-paper-ink leading-none">
+              — End of log,
             </p>
-            <p className="font-serif italic text-3xl lg:text-4xl text-ink mt-2">
-              {issue.editor}.
+            <p className="font-serif italic text-3xl lg:text-4xl text-paper-ink mt-2">
+              {operator.name}.
             </p>
           </div>
           <div className="col-span-12 sm:col-span-5 mt-4 sm:mt-0 sm:text-right">
-            <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink/70">
-              {issue.city}
+            <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-paper-ink/80">
+              {operator.city}
             </p>
-            <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-ink/55 mt-1">
-              {issue.coordinates}
+            <p className="font-mono uppercase text-[11px] tracking-[0.22em] text-paper-ink/70 mt-1">
+              {operator.coordinates} · built with next · three · anime.js
             </p>
           </div>
         </div>

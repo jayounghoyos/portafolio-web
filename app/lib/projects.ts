@@ -7,6 +7,10 @@ export type Project = {
   blurb: string;
   domain: string;
   tier: Tier;
+  /** Lifecycle stage shown on spec strips. */
+  stage: "shipped" | "study" | "filed";
+  /** Short stack hint shown on spec strips. */
+  stackHint: string;
   imgUrl?: string;
   href?: string;
   repo?: string;
@@ -22,6 +26,8 @@ export const projects: Project[] = [
       "Autonomous disinfection robot for hospital environments during COVID-19. Designed for path planning across patient rooms with onboard UV-C control.",
     domain: "Robotics · Embedded",
     tier: "selected",
+    stage: "shipped",
+    stackHint: "ROS · sensors",
     imgUrl: "/images/projects/higiea.png",
     href: "https://sketchfab.com/models/e44f2f205d624b7b9e5a6f4c18399a85",
   },
@@ -33,6 +39,8 @@ export const projects: Project[] = [
       "Job-recommendation MVP: a classification model trained on listing/applicant features, served behind a Next.js front end. ML and full-stack in one ship.",
     domain: "ML · Full-stack",
     tier: "selected",
+    stage: "shipped",
+    stackHint: "next.js · sklearn",
     imgUrl: "/images/projects/Magneto_ads.jpg",
     href: "https://ads-automation-xryl.vercel.app/",
     repo: "https://github.com/jayounghoyos/ads_automation",
@@ -45,6 +53,8 @@ export const projects: Project[] = [
       "Articulated claw-arm robot built for grabbing competitions. Tuned for precise low-latency control under contact loads.",
     domain: "Robotics · Mechanical",
     tier: "selected",
+    stage: "shipped",
+    stackHint: "arduino · servos",
     imgUrl: "/images/projects/close.jpeg",
     href: "https://sketchfab.com/models/49c4e2e2b09849d5a4a5f968fbb66fe2",
   },
@@ -56,6 +66,8 @@ export const projects: Project[] = [
       "Drive-by-gamepad firmware for a Raspberry Pi 4 chassis — Bluetooth HID input, motor controller PWM, latency-tuned event loop.",
     domain: "Robotics · Systems",
     tier: "selected",
+    stage: "shipped",
+    stackHint: "rpi · websocket",
     imgUrl: "/images/projects/close.jpeg",
     repo: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
     href: "https://github.com/jayounghoyos/xbox_controller_car_raspberrypi4B",
@@ -68,6 +80,8 @@ export const projects: Project[] = [
       "Scikit-learn classifier recommending games by player age. A first hands-on with feature engineering and model evaluation.",
     domain: "ML · Study",
     tier: "study",
+    stage: "study",
+    stackHint: "python · sklearn",
     imgUrl: "/images/projects/gameRecommendations.png",
     repo: "https://github.com/jayounghoyos/machineLearningUdemy",
     lesson: "First time owning the full feature → train → evaluate loop.",
@@ -80,6 +94,8 @@ export const projects: Project[] = [
       "A single-neuron TensorFlow network learning a linear map. Deliberately tiny — built to make backprop concrete.",
     domain: "ML · Study",
     tier: "study",
+    stage: "study",
+    stackHint: "tensorflow",
     imgUrl: "/images/projects/neuron.png",
     repo: "https://github.com/jayounghoyos/FIRST_neural_network",
     lesson: "Loss curves and weights matter more than architecture at this scale.",
@@ -91,6 +107,8 @@ export const projects: Project[] = [
     blurb: "3D visualization of an IMDB dataset for a data structures course.",
     domain: "Data viz",
     tier: "experiment",
+    stage: "filed",
+    stackHint: "three.js · python",
     repo: "https://github.com/jayounghoyos/Parcial-3-Datos-Algoritmos",
   },
   {
@@ -100,6 +118,8 @@ export const projects: Project[] = [
     blurb: "Python package on PyPI. Exactly what it sounds like.",
     domain: "Python · PyPI",
     tier: "experiment",
+    stage: "filed",
+    stackHint: "python · pypi",
     href: "https://pypi.org/project/rickrollprinter/0.1.3/",
   },
   {
@@ -109,6 +129,8 @@ export const projects: Project[] = [
     blurb: "Static rickroll on an ST7789 display driven by an Arduino Uno.",
     domain: "Embedded",
     tier: "experiment",
+    stage: "filed",
+    stackHint: "arduino · st7789",
     repo: "https://github.com/jayounghoyos/st7789-arduino-uno",
   },
 ];
