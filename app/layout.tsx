@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import CustomCursor from "./components/ui/CustomCursor";
 import MotionOrchestrator from "./components/motion/MotionOrchestrator";
@@ -56,6 +57,10 @@ export default function RootLayout({
         <CustomCursor />
         <MotionOrchestrator />
         {children}
+        {/* Alturia chat widget — deployed at alturia-widget.vercel.app, talking to
+            alturia-api.onrender.com. This is the entire integration: one script tag,
+            no other infra touched. */}
+        <Script src="https://alturia-widget.vercel.app/widget.js" strategy="lazyOnload" />
       </body>
     </html>
   );
